@@ -2,35 +2,30 @@
 import pickle
 import pprint
 
-import pip
-import google_auth_oauthlib
-import googleapiclient
-
+from google_auth_oauthlib.flow import Flow  # using Flow function instead of InstalledAppsFLow
 from googleapiclient.discovery import build
-from google_auth_oauthlib.flow import Flow # using Flow function instead of InstalledAppsFLow
-from datetime import *
-from main import *
 
-flow = Flow.from_client_secrets_file("client_secret.json", scopes ='https://www.googleapis.com/auth/calendar') # access to calendar in mode read/write
+flow = Flow.from_client_secrets_file("client_secret.json",
+                                     scopes='https://www.googleapis.com/auth/calendar')  # access to calendar in mode read/write
 credentials = flow.run_console()
 
 pickle.dump(credentials, open("token.pkl", "wb"))
 credentials = pickle.load(open("token.pkl", "rb"))
-service = build("calendar", "v3", credentials =credentials)
+service = build("calendar", "v3", credentials=credentials)
 
 result = service.calendarList().list().execute()
 calendar_id = result['items'][0]['id']
 
-pp = pprint.PrettyPrinter(indent = 4)  # use pprint for nicer view
+pp = pprint.PrettyPrinter(indent=4)  # use pprint for nicer view
 timezone = 'Australia/Sydney'  # enter your timezone
 
 
-def create_event(summary, start, end,  invite, description):
+def create_event(summary, start, end, invite, description):
     event = {
         'summary': summary,
         'description': description,
         'start': start,
-        'end' : end,
+        'end': end,
         'attendees': [
             {'email': invite},
         ],

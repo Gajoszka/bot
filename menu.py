@@ -1,15 +1,15 @@
 """Code adapted from https://cumoodle.coventry.ac.uk/pluginfile.php/3091515/mod_resource/content/20/Lab%20Activity%20-%20Program%20Modules%20Design%20and%20Development%20%28Menu%29%202019%20v3.pdf"""
-from options import *
 from event import chooseFromMenu
-from weather import weatherURL
 from eventData import EventData
+from options import *
+from weather import weatherURL
 
 _menuDefOptions = ["Add title", "Set start date", "Duration", "Invite people", "Add description", "Check weather",
-                  "Finish and create an event", "Exit"]
+                   "Finish and create an event", "Exit"]
 _menu_options = _menuDefOptions.copy()
 
-def showMenu():
 
+def showMenu():
     run = True
     event_data = EventData()
     while run:
@@ -39,11 +39,12 @@ def runActions(choice, event_data):
             print("You need to fill every menu option!")
         else:
             addEvent(event_data)
-            #new
+            # new
             event_data = EventData()
             _menu_options = _menuDefOptions.copy()
     else:
         exit()
     return event_data
+
 
 showMenu()

@@ -37,7 +37,7 @@ def dates(check):
         startTime[el] = int(input(el + ": "))
     # s_time = datetime(start_time[2][1], start_time[1][1], start_time[0][1], start_time[3][1], start_time[4][1])
     s_time = datetime(startTime["Year"], startTime["Month"], startTime["Day"], startTime["Hour"], startTime["Minute"])
-    #TODO pętla
+    # TODO pętla
     if check and validTime(s_time) is False:
         print("This date already passed.")
     return s_time
