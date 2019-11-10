@@ -1,14 +1,22 @@
 from options import *
-from event import menuPosition
+from event import chooseFromMenu
 from weather import weatherURL
 
-def showMenu(events):
-    menuOptions = ["Add title", "Set start and end date", "Invite people", "Add description", "Check weather", "Finish and create an event", "Exit"]
+
+def showMenu():
+    menuDefOptions = ["Add title", "Set start and end date", "Invite people", "Add description", "Check weather",
+                      "Finish and create an event", "Exit"]
+    menuOptions = menuDefOptions
     run = True
     while run:
         print("----------------------------------------")
-        choice = menuPosition("Menu", menuOptions, "Please choose option: ")
+        choice = chooseFromMenu("Menu", menuOptions, "Please choose option: ")
+        if choice != menuOptions.index("Finish and create an event")+1:
+            menuOptions.pop(choice - 1)
+        # runActions(choice)
 
+
+def runActions(choice):
     if choice == 1:
         title()
     elif choice == 2:
@@ -20,15 +28,19 @@ def showMenu(events):
     elif choice == 5:
         weatherURL()
     elif choice == 6:
-        if event['start'] == None or event['end'] == None or event['summary'] == None or event['attendees'] == None or \
-                event['description'] == None:
+        if eventData['start'] == None or eventData['end'] == None or eventData['summary'] == None or eventData[
+            'attendees'] == None or \
+                eventData['description'] == None:
             print("You need to fill every menu option!")
             showMenu()
-        else:
-            create_event(event['start'], event['end'], event['summary'], event['attendees'], event['description'])
+        # else:
+        #     create_event(eventData['start'], eventData['end'], eventData['summary'], eventData['attendees'],
+        #                  eventData['description'])
         showMenu()
     elif choice == 7:
         exit()
     else:
         print("Wrong option. Choose again.")
-        showMenu()
+
+
+showMenu()

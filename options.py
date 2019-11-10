@@ -1,6 +1,8 @@
 from datetime import *
 
-event = {
+events = []
+
+eventData = {
     'summary': None,
     'description': None,
     'start': None,
@@ -11,9 +13,17 @@ event = {
 }
 
 
+def getEvents():
+    return events
+
+
+def uploadEventList(theList):
+    events = theList
+
+
 def title():
     name = input("What is the title of the event? ")
-    event['summary'] = name
+    eventData['summary'] = name
     return name
 
 
@@ -55,8 +65,8 @@ def dates():
     else:
         message = "The start date is" + str(s_time) + ". The end date is" + str(e_time) + "."
         print(message)
-        event['start'] = s_time
-        event['end'] = e_time
+        eventData['start'] = s_time
+        eventData['end'] = e_time
     return s_time, e_time, message
 
 
@@ -80,19 +90,19 @@ def attendees():
             print("")
         attendeesList.append(attendee)
     print(attendeesList)
-    event['attendees'] = attendees
+    eventData['attendees'] = attendees
     return attendees
 
 
 def description():
     des = input("Describe the event: \n")
-    event['description'] = des
+    eventData['description'] = des
     return des
 
 
 def location():
     loc = input("Where does the event take place? ")
-    event['location'] = loc
+    eventData['location'] = loc
     return loc
 
 

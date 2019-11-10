@@ -1,26 +1,18 @@
-def menuPosition(name, numbers, prompt):
-    thisNumber = '1'
-    highestNumber = menuDisplay(name, numbers, thisNumber)
-    validInput = getValidInput(prompt, thisNumber, highestNumber)
-    return validInput
+def chooseFromMenu(name, options, prompt):
+    highestNumber = menuDisplay(name, options)
+    validInput = getValidInput(prompt + " (from 1 to " + str(highestNumber) + ")", highestNumber)
+    return int(validInput)
 
 
-def menuDisplay(name, numbers, thisNumber):
+def menuDisplay(name, options):
     if len(name) > 0:
-        theNumbers = numbers
-        setLowestNumber(thisNumber)
         nameDisplay(name)
 
     index = 0
-    for index in range(len(theNumbers)):
-        showMenuLine(thisNumber, theNumbers[index])
-        thisNumber = chr(ord(thisNumber) + 1)
+    for index in range(len(options)):
+        showMenuLine(index + 1, options[index])
 
-    lastNumber = chr(ord(thisNumber))
-    thisNumber = chr(ord(thisNumber) - 1)
-
-    setHighestNumber(chr(ord(thisNumber) - 1))
-    return lastNumber
+    return len(options)
 
 
 def nameDisplay(a_name):
@@ -28,27 +20,21 @@ def nameDisplay(a_name):
         print("\t" + a_name + "\n")
 
 
-def showMenuLine(label, text):
-    print(label + ". " + text)
+def showMenuLine(index, text):
+    print(str(index) + ". " + text)
 
 
-def setHighestNumber(num):
-    highestNum = num
-
-
-def setLowestNumber(num):
-    lowestNum = num
-
-
-def getValidInput(prompt, lowestNum, highestNum):
-    if len(prompt) > 0:
-        answer = ''
-        invalidAnswer = True
-        while invalidAnswer is True:
-            userChoice = input(prompt)
+def getValidInput(prompt, highestNum):
+    invalidAnswer = False
+    while invalidAnswer is False:
+        userChoice = input(prompt)
+        try:
             if len(userChoice) > 0:
-                answer = userChoice[0]
+                answer = int(userChoice[0])
             else:
-                answer = ''
-            invalidAnswer = answer < lowestNum or answer > highestNum
+                answer = -1
+        except ValueError:
+            answer = -1
+        invalidAnswer = answer > 0 and answer <= highestNum
+
     return answer

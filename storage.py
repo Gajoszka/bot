@@ -5,5 +5,5 @@ def readEvents():
     return events
 
 
-def writeEvents():
-    events = list
+def writeEvents(theList):
+    events = theList
