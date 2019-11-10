@@ -1,42 +1,49 @@
-import copy
+def menuPosition(name, numbers, prompt):
+    thisNumber = '1'
+    highestNumber = menuDisplay(name, numbers, thisNumber)
+    validInput = getValidInput(prompt, thisNumber, highestNumber)
+    return validInput
 
-# empty list
-listOfEvents = []
+def menuDisplay(name, numbers, thisNumber):
+    if len(name) > 0:
+        theNumbers = numbers
+        setLowestNumber(thisNumber)
+        nameDisplay(name)
 
-# empty dictionary
-event = {
-    'summary': None,
-    'description': None,
-    'start': None,
-    'end' : None,
-    'attendees': [
-        {'email': None},
-    ],
+    index = 0
+    for index in range(len(theNumbers)):
+        showMenuLine(thisNumber, theNumbers[index])
+        thisNumber = chr(ord(thisNumber) + 1)
 
-}
-def get_promotions():
-    return listOfEvents
-def upload_promos_list(the_list):
-    event = the_list
+    lastNumber = chr(ord(thisNumber))
+    thisNumber = chr(ord(thisNumber) - 1)
 
-# to register a new promotion
-def process_new_promotion(event_list, the_type, rate):
-     data = []
-     e = {}
-     if len(event_list) != 0:
-        new_list = copy.deepcopy(event_list) # #creates a deep copy to reference a completely new object
-        e['promo_type'] = the_type
-        e['discount'] = rate
-        new_list.append(e)
-        data = new_list
-     else:
-        event['promo_type'] = the_type
-        event['discount'] = rate
-        event_list.append(event)
-        data = event_list
-     return data
-# to view all promotions
-def process_view_promotion(event_list):
-     for index in range(len(event_list)):
-        ev = event_list[index]
-        print(ev)
+    setHighestNumber(chr(ord(thisNumber) - 1))
+    return lastNumber
+
+
+def nameDisplay(a_name):
+    if a_name != '':
+        print("\t" + a_name + "\n")
+
+def showMenuLine(label, text):
+    print(label + ". " + text)
+
+def setHighestNumber(num):
+    highestNum = num
+
+def setLowestNumber(num):
+    lowestNum = num
+
+def getValidInput(prompt, lowestNum, highestNum):
+    if len(prompt) > 0:
+        answer = ''
+        invalidAnswer = True
+        while invalidAnswer is True:
+            userChoice = input(prompt)
+            if len(userChoice) > 0:
+                answer = userChoice[0]
+            else:
+                answer = ''
+            invalidAnswer = answer < lowestNum or answer > highestNum
+    return answer
