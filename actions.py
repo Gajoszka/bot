@@ -11,10 +11,10 @@ event = {
     ],
 }
 
+
 def title():
     name = input("What is the title of the event? ")
     event['summary'] = name
-    menu()
     return name
 
 
@@ -58,7 +58,6 @@ def dates():
         print(message)
         event['start'] = s_time
         event['end'] = e_time
-        menu()
     return s_time, e_time, message
 
 
@@ -83,21 +82,20 @@ def attendees():
         attendeesList.append(attendee)
     print(attendeesList)
     event['attendees'] = attendees
-    menu()
     return attendees
 
 
 def description():
     des = input("Describe the event: \n")
     event['description'] = des
-    menu()
     return des
+
 
 def location():
     loc = input("Where does the event take place? ")
     event['location'] = loc
-    menu()
     return loc
+
 
 def printEvent(summary, start, end, people, description):
     print("Title of the event: " + summary)
