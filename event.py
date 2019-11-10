@@ -4,6 +4,7 @@ def menuPosition(name, numbers, prompt):
     validInput = getValidInput(prompt, thisNumber, highestNumber)
     return validInput
 
+
 def menuDisplay(name, numbers, thisNumber):
     if len(name) > 0:
         theNumbers = numbers
@@ -26,14 +27,18 @@ def nameDisplay(a_name):
     if a_name != '':
         print("\t" + a_name + "\n")
 
+
 def showMenuLine(label, text):
     print(label + ". " + text)
+
 
 def setHighestNumber(num):
     highestNum = num
 
+
 def setLowestNumber(num):
     lowestNum = num
+
 
 def getValidInput(prompt, lowestNum, highestNum):
     if len(prompt) > 0:

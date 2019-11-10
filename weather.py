@@ -1,6 +1,5 @@
 import requests
 import statistics
-from main import menu
 
 def weatherURL():
     api_url='http://api.openweathermap.org/data/2.5/weather?appid=73041764461c75168f67f580c696f3a4&q='
@@ -103,5 +102,3 @@ def weatherURL():
     print('Humidity : {} %. '.format(averageHumidity))
     #print('Probability of Rain: {} %. '.format(averageRainProb))
     print('Description : {}'.format(description1))
-
-    menu()
