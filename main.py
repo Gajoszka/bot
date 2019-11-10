@@ -46,7 +46,7 @@ def menu():
     else:
         print("Wrong option. Choose again.")
         menu()
-
+    menu()
 
 def start():
     print("Hello! Do you want to create an event on your Google Calendar ? ")
@@ -57,5 +57,4 @@ def start():
     else:
         print("Great!")
     menu()
-
 start()
