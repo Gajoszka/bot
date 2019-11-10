@@ -1,12 +1,14 @@
-def chooseFromMenu(name, options, prompt):
-    highestNumber = menuDisplay(name, options)
-    validInput = getValidInput(prompt + " (from 1 to " + str(highestNumber) + ")", highestNumber)
+"""Code adapted from https://cumoodle.coventry.ac.uk/pluginfile.php/3091515/mod_resource/content/20/Lab%20Activity%20-%20Program%20Modules%20Design%20and%20Development%20%28Menu%29%202019%20v3.pdf"""
+
+def chooseFromMenu(head, options, prompt):
+    highestNumber = menuDisplay(head, options)
+    validInput = getValidInput(prompt + " (from 1 to " + str(highestNumber) + "): ", highestNumber)
     return int(validInput)
 
 
-def menuDisplay(name, options):
-    if len(name) > 0:
-        nameDisplay(name)
+def menuDisplay(head, options):
+    if len(head) > 0:
+        nameDisplay(head)
 
     index = 0
     for index in range(len(options)):

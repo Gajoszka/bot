@@ -1,46 +1,49 @@
+"""Code adapted from https://cumoodle.coventry.ac.uk/pluginfile.php/3091515/mod_resource/content/20/Lab%20Activity%20-%20Program%20Modules%20Design%20and%20Development%20%28Menu%29%202019%20v3.pdf"""
 from options import *
 from event import chooseFromMenu
 from weather import weatherURL
+from eventData import EventData
 
+_menuDefOptions = ["Add title", "Set start date", "Duration", "Invite people", "Add description", "Check weather",
+                  "Finish and create an event", "Exit"]
+_menu_options = _menuDefOptions.copy()
 
 def showMenu():
-    menuDefOptions = ["Add title", "Set start and end date", "Invite people", "Add description", "Check weather",
-                      "Finish and create an event", "Exit"]
-    menuOptions = menuDefOptions
+
     run = True
+    event_data = EventData()
     while run:
         print("----------------------------------------")
-        choice = chooseFromMenu("Menu", menuOptions, "Please choose option: ")
-        if choice != menuOptions.index("Finish and create an event")+1:
-            menuOptions.pop(choice - 1)
-        # runActions(choice)
+        choice = chooseFromMenu("Menu", _menu_options, "Please choose option")
+        choice_def = _menuDefOptions.index(_menu_options[choice])
+        if choice != _menu_options.index("Finish and create an event") + 1:
+            _menu_options.pop(choice - 1)
+        event_data = runActions(choice_def, event_data)
 
 
-def runActions(choice):
+def runActions(choice, event_data):
     if choice == 1:
-        title()
+        event_data.summary = title()
     elif choice == 2:
-        dates()
+        event_data.start = dates(True)
     elif choice == 3:
-        attendees()
+        event_data.end = dates(False)
     elif choice == 4:
-        description()
+        event_data.attendees = attendees()
     elif choice == 5:
-        weatherURL()
+        event_data.description = description()
     elif choice == 6:
-        if eventData['start'] == None or eventData['end'] == None or eventData['summary'] == None or eventData[
-            'attendees'] == None or \
-                eventData['description'] == None:
-            print("You need to fill every menu option!")
-            showMenu()
-        # else:
-        #     create_event(eventData['start'], eventData['end'], eventData['summary'], eventData['attendees'],
-        #                  eventData['description'])
-        showMenu()
+        weatherURL()
     elif choice == 7:
-        exit()
+        if event_data.check() == False:
+            print("You need to fill every menu option!")
+        else:
+            addEvent(event_data)
+            #new
+            event_data = EventData()
+            _menu_options = _menuDefOptions.copy()
     else:
-        print("Wrong option. Choose again.")
-
+        exit()
+    return event_data
 
 showMenu()
