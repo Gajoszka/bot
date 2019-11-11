@@ -1,3 +1,6 @@
+"""Code copied from Poojith Patnala
+It is his part of code added to the project"""
+
 import statistics
 
 import requests

@@ -33,17 +33,18 @@ def showMenuLine(index, text):
     print(str(index) + ". " + text)
 
 
+#Getting valid input from the user
 def getValidInput(prompt, highestNum):
-    invalidAnswer = False
-    while invalidAnswer is False:
-        userChoice = input(prompt)
+    invalid_answer = False
+    while invalid_answer is False:
+        user_choice = input(prompt)
         try:
-            if len(userChoice) > 0:
-                answer = int(userChoice[0])
+            if len(user_choice) > 0: # takes first character from user input
+                answer = int(user_choice[0])
             else:
                 answer = -1
         except ValueError:
             answer = -1
-        invalidAnswer = answer > 0 and answer <= highestNum
+        invalid_answer = answer > 0 and answer <= highestNum
 
     return answer

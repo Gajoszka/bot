@@ -6,6 +6,7 @@ from weather import weatherURL
 
 
 class EventService:
+    # creating menu options
     _title = "Add title"
     _start = "Set start date"
     _end = "Set end date"
@@ -21,7 +22,8 @@ class EventService:
         self.showMenu()
 
     def showMenu(self):
-
+        # print the menu while the input from the user is valid
+        # (choice was an element of previous menu)
         while self.active:
             print("----------------------------------------")
             menu = self._create_menu()
@@ -31,13 +33,14 @@ class EventService:
                 choice = chooseOption("Menu", menu, "Please choose option")
                 self._runActions(choice)
 
+    # creates menu dynamically based on which options have already been used
     def _create_menu(self):
         _menu_options = []
         if self.event_data.summary is None:
             _menu_options.append(self._title)
         if self.event_data.start is None:
             _menu_options.append(self._start)
-        elif self.event_data.end is None:
+        elif self.event_data.end is None:  # end date can be set only if the start date is set
             _menu_options.append(self._end)
         if self.event_data.attendees is None:
             _menu_options.append(self._attendees)
@@ -46,6 +49,7 @@ class EventService:
         _menu_options.append(self._cancel)
         return _menu_options
 
+    # redirects to particular method based on choice made
     def _runActions(self, choice):
         if choice == self._title:
             self._add_title()
@@ -78,6 +82,7 @@ class EventService:
     def get_event(self):
         return self.event_data
 
+    # make sure user really want to exit creating event
     def _exit(self):
         if self.event_data.check() is False:
             choice = choose_index("You haven't finished creating the event.Do you really want to exit?",
