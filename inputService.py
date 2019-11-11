@@ -1,5 +1,6 @@
-from datetime import datetime , time
-from menuService import  choose_index
+from datetime import datetime
+
+from menuService import choose_index
 
 
 def title():
@@ -27,29 +28,16 @@ def check_dates(date1, date2):
 
 def input_date(name):
     print("What is the " + name + " time?")
-    run = True
-    while run:
-        try:
-            s_time = datetime.strptime(input("Date (YYYY-mm-dd HH:mm:ss): "), '%Y-%m-%d %H:%M:%S')
-            run = False
-        except ValueError:
-            choice = choose_index("\nNiepoprawny format.Chcesz spróbować jeszcze raz",
-                                  ["Tak", "Nie"], "Please choose option")
-            run =  choice == 1
-            s_time  = None
-                # self.active = False
-    return s_time
-
-
-def input_date2(name):
-    print("What is the " + name + " time?")
-    labels_time = ["Day", "Month", "Year", "Hour", "Minute"]
-    date = {}
-    for el in labels_time:
-        date[el] = int(input(el + ": "))
-    # DATE = datetime(start_time[2][1], start_time[1][1], start_time[0][1], start_time[3][1], start_time[4][1])
-    s_time = datetime(date["Year"], date["Month"], date["Day"], date["Hour"],
-                      date["Minute"])
+    try:
+        s_time = datetime.strptime(input("Date (YYYY-mm-dd HH:mm:ss): "), '%Y-%m-%d %H:%M:%S')
+    except ValueError:
+        choice = choose_index("Invalid format. Do you want to try again?",
+                              ["Yes", "No"], "Please choose option")
+        if choice == 2:
+            return None
+        else:
+            input_date(name)
+        # self.active = False
     return s_time
 
 
@@ -79,14 +67,27 @@ def valid_email(email):
 
 def attendees():
     print("How many people do you want to invite?")
-    num = int(input())
+    run = True
+    while run:
+        try:
+            num = int(input())
+        except ValueError:
+            choice = choose_index("Invalid format. Do you want to try again?",
+                                  ["Yes", "No"], "Please choose option")
+            run = choice == 1
+            if not run:
+                return None
     attendees_list = []
     for i in range(1, num + 1):
-        attendee = input("Please type email address of invited person: ")
-        if valid_email(attendee) is False:
-            attendee = input("Enter valid email address!")
-        else:
-            print("")
+        run = True
+        while run:
+            attendee = input("Please type email address of invited person: ")
+            if valid_email(attendee) is False:
+                # attendee = input("Enter valid email address!")
+                choice = choose_index("Invalid format. Do you want to try again?",
+                                      ["Yes", "No"], "Please choose option")
+                run = choice == 1
+                return None
         attendees_list.append(attendee)
     print(attendees_list)
     return attendees

@@ -1,7 +1,7 @@
 """Code adapted from https://cumoodle.coventry.ac.uk/pluginfile.php/3091515/mod_resource/content/20/Lab%20Activity%20-%20Program%20Modules%20Design%20and%20Development%20%28Menu%29%202019%20v3.pdf"""
 from eventData import EventData
-from menuService import chooseOption, choose_index
-from options import *
+from menuService import chooseOption
+from inputService import *
 from weather import weatherURL
 
 
@@ -11,7 +11,6 @@ class EventService:
     _end = "Set end date"
     _attendees = "Invite people"
     _description = "Add description"
-    _weather = "Check weather"
     _cancel = "Exit"
 
     def __init__(self) -> None:
@@ -58,8 +57,6 @@ class EventService:
             self._addPeople()
         elif choice == self._description:
             self._addDescription()
-        elif choice == self._weather:
-            self._checkWeather()
         else:
             self._exit()
 
@@ -78,17 +75,15 @@ class EventService:
     def _addDescription(self):
         self.event_data.description = description()
 
-    def _checkWeather(self):
-        weatherURL()
-
     def get_event(self):
         return self.event_data
 
     def _exit(self):
         if self.event_data.check() is False:
             choice = choose_index("You haven't finished creating the event.Do you really want to exit?",
-                                 ["Exit anyway", "Go back"], "Please choose option")
+                                  ["Exit anyway", "Go back"], "Please choose option")
             if choice == 1:
                 self.active = False
+                self.event_data = None
         else:
             self.active = False

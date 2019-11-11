@@ -5,7 +5,7 @@ import pprint
 from google_auth_oauthlib.flow import Flow  # using Flow function instead of InstalledAppsFLow
 from googleapiclient.discovery import build
 
-flow = Flow.from_client_secrets_file("client_secret.json",
+flow = Flow.from_client_secrets_file("google/credentials.json",
                                      scopes='https://www.googleapis.com/auth/calendar')  # access to calendar in mode read/write
 credentials = flow.run_console()
 

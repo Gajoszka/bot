@@ -2,7 +2,7 @@ class EventData:
 
     def __init__(self) -> None:
         super().__init__()
-        self.summary= None
+        self.summary = None
         self.description = None
         self.start = None
         self.end = None
@@ -13,7 +13,7 @@ class EventData:
 
     def to_string(self):
         print("Title of the event: " + str(self.summary)
-        + "\n Start date: " + str(self.start)
-        + "\n Duration: " + str(self.end)
-        + "\n Attendees: " + self.attendees
-        +"\n Description: " + str(self.description))
+              + "\n Start date: " + str(self.start)
+              + "\n Duration: " + str(self.end)
+              + "\n Attendees: " + self.attendees
+              + "\n Description: " + str(self.description))
