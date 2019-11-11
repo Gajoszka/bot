@@ -1,11 +1,19 @@
 class EventData:
-    summary: None
-    description: None
-    start: None
-    end: None
-    attendees: [
-        {'email': None},
-    ]
+
+    def __init__(self) -> None:
+        super().__init__()
+        self.summary= None
+        self.description = None
+        self.start = None
+        self.end = None
+        self.attendees = None
 
     def check(self):
-        return self.start != None and self.end != None and self.summary != None and self.attendees != None and self.description != None
+        return self.start is not None and self.end is not None and self.summary is not None and self.attendees is not None and self.description is not None
+
+    def to_string(self):
+        output = "Title of the event: " + self.summary
+        + "\n Start date: " + str(self.start)
+        + "\n Duration: " + str(self.end)
+        + "\n Attendees: " + "\n " + (self.attendees)
+        +"\n Description: " + self.description

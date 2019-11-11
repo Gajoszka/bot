@@ -1,14 +1,5 @@
 from datetime import *
-
-events = []
-
-
-def getEvents():
-    return events
-
-
-def addEvent(event):
-    events.append(event)
+from datetime import datetime
 
 
 def title():
@@ -16,34 +7,51 @@ def title():
     return name
 
 
-def validTime(date):
+def valid_time(s_date):
     today = datetime.today()
-    if today > date:
+    if today > s_date:
+        print("This date already past.")
+        start_date(True)
+    else:
+        return True
+
+
+def check_dates(date1, date2):
+    if date2 - date1 < 0:
         return False
     else:
         return True
 
 
-# def finalDuration(start, end):
-# dur = timedelta(start, end)
-# y = divmod(dur, 31556926) # seconds in a year
-# print("Event lasts " + y)
-
-def dates(check):
-    print("What is the start time ?")
-    labelsTime = ["Day", "Month", "Year", "Hour", "Minute"]
-    startTime = {}
-    for el in labelsTime:
-        startTime[el] = int(input(el + ": "))
-    # s_time = datetime(start_time[2][1], start_time[1][1], start_time[0][1], start_time[3][1], start_time[4][1])
-    s_time = datetime(startTime["Year"], startTime["Month"], startTime["Day"], startTime["Hour"], startTime["Minute"])
-    # TODO pętla
-    if check and validTime(s_time) is False:
-        print("This date already passed.")
+def input_date(name):
+    print("What is the " + name + " time?")
+    labels_time = ["Day", "Month", "Year", "Hour", "Minute"]
+    date = {}
+    for el in labels_time:
+        date[el] = int(input(el + ": "))
+    # DATE = datetime(start_time[2][1], start_time[1][1], start_time[0][1], start_time[3][1], start_time[4][1])
+    s_time = datetime(date["Year"], date["Month"], date["Day"], date["Hour"],
+                     date["Minute"])
     return s_time
 
 
-def validEmail(email):
+def start_date(check):
+    s_time: datetime = input_date("start")
+    if check and valid_time(s_time) is False:
+        print("This date already passed!")
+        start_date(True)
+    return s_time
+
+
+def end_date(s_time, check):
+    e_time: datetime = input_date("end")
+    if check and check_dates(s_time, e_time) is False:
+        print("The end date is before start date!")
+        end_date(True)
+    return e_time
+
+
+def valid_email(email):
     if '@' in email:
         if ".com" or ".co.uk" or "ac.uk" or "yahoo.com" or "outlook.com" in email:
             return True
@@ -54,26 +62,21 @@ def validEmail(email):
 def attendees():
     print("How many people do you want to invite?")
     num = int(input())
-    attendeesList = []
+    attendees_list = []
     for i in range(1, num + 1):
         attendee = input("Please type email address of invited person: ")
-        if validEmail(attendee) is False:
+        if valid_email(attendee) is False:
             attendee = input("Enter valid email address!")
         else:
             print("")
-        attendeesList.append(attendee)
-    print(attendeesList)
+        attendees_list.append(attendee)
+    print(attendees_list)
     return attendees
 
 
 def description():
     des = input("Describe the event: \n")
     return des
-
-
-def location():
-    loc = input("Where does the event take place? ")
-    return loc
 
 
 def printEvent(summary, start, end, people, description):
