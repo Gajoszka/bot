@@ -1,5 +1,5 @@
-from datetime import *
-from datetime import datetime
+from datetime import datetime , time
+from menuService import  choose_index
 
 
 def title():
@@ -8,6 +8,8 @@ def title():
 
 
 def valid_time(s_date):
+    if s_date is None:
+        return True
     today = datetime.today()
     if today > s_date:
         print("This date already past.")
@@ -17,7 +19,7 @@ def valid_time(s_date):
 
 
 def check_dates(date1, date2):
-    if date2 - date1 < 0:
+    if date2 < date1:
         return False
     else:
         return True
@@ -25,13 +27,29 @@ def check_dates(date1, date2):
 
 def input_date(name):
     print("What is the " + name + " time?")
+    run = True
+    while run:
+        try:
+            s_time = datetime.strptime(input("Date (YYYY-mm-dd HH:mm:ss): "), '%Y-%m-%d %H:%M:%S')
+            run = False
+        except ValueError:
+            choice = choose_index("\nNiepoprawny format.Chcesz spróbować jeszcze raz",
+                                  ["Tak", "Nie"], "Please choose option")
+            run =  choice == 1
+            s_time  = None
+                # self.active = False
+    return s_time
+
+
+def input_date2(name):
+    print("What is the " + name + " time?")
     labels_time = ["Day", "Month", "Year", "Hour", "Minute"]
     date = {}
     for el in labels_time:
         date[el] = int(input(el + ": "))
     # DATE = datetime(start_time[2][1], start_time[1][1], start_time[0][1], start_time[3][1], start_time[4][1])
     s_time = datetime(date["Year"], date["Month"], date["Day"], date["Hour"],
-                     date["Minute"])
+                      date["Minute"])
     return s_time
 
 
@@ -47,7 +65,7 @@ def end_date(s_time, check):
     e_time: datetime = input_date("end")
     if check and check_dates(s_time, e_time) is False:
         print("The end date is before start date!")
-        end_date(True)
+        end_date(s_time, True)
     return e_time
 
 

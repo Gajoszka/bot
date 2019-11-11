@@ -12,8 +12,8 @@ class EventData:
         return self.start is not None and self.end is not None and self.summary is not None and self.attendees is not None and self.description is not None
 
     def to_string(self):
-        output = "Title of the event: " + self.summary
+        print("Title of the event: " + str(self.summary)
         + "\n Start date: " + str(self.start)
         + "\n Duration: " + str(self.end)
-        + "\n Attendees: " + "\n " + (self.attendees)
-        +"\n Description: " + self.description
+        + "\n Attendees: " + self.attendees
+        +"\n Description: " + str(self.description))

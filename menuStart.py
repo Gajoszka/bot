@@ -23,7 +23,7 @@ class MenuStart:
         eventData = eventService.get_event()
         if eventData != None:
             self._events.append(eventData)
-            to_str = EventData
+            to_str = EventData()
             to_str.to_string()
 
     def _runExit(self):
