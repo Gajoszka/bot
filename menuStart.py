@@ -34,8 +34,6 @@ class MenuStart:
         # if so, adds event to list
         if event_data is not None:
             self._events.append(event_data)
-            add_to_calendar()
-            # to_str = EventData()
             event_data.printing()
             return event_data
             #event_to_add = service.events().insert(calendarId='primary', body=event_data).execute()

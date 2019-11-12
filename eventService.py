@@ -1,8 +1,7 @@
 """Code adapted from https://cumoodle.coventry.ac.uk/pluginfile.php/3091515/mod_resource/content/20/Lab%20Activity%20-%20Program%20Modules%20Design%20and%20Development%20%28Menu%29%202019%20v3.pdf"""
 from eventData import EventData
-from menuService import chooseOption
 from inputService import *
-from weather import weatherURL
+from menuService import chooseOption
 
 
 class EventService:
