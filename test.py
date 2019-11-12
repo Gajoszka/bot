@@ -1,5 +1,4 @@
-from main import start
-import sys
+from menuStart import MenuStart
 
-if __name__ == '__main__':
-    start()
+menu_start = MenuStart()
+menu_start.showMenu()
