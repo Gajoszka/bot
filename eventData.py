@@ -1,3 +1,6 @@
+import json
+
+
 class EventData:
 
     def __init__(self) -> None:
@@ -20,3 +23,6 @@ class EventData:
               + "\n Duration: " + str(self.end)
               + "\n Attendees: " + str(self.attendees)
               + "\n Description: " + self.description)
+
+    def toJson(self):
+        return json.dumps(self.__dict__)
