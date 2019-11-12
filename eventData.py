@@ -26,3 +26,4 @@ class EventData:
 
     def toJson(self):
         return json.dumps(self.__dict__)
+ 
