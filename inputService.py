@@ -59,7 +59,7 @@ def end_date(s_time, check):
 # checks if email has '@' and valid domain
 def valid_email(email):
     if '@' in email:
-        if ".com" or ".co.uk" or "ac.uk" or "yahoo.com" or "outlook.com" in email:
+        if ".com" or ".co.uk" or ".ac.uk" or "yahoo.com" or "outlook.com" in email:
             return True
     else:
         return False

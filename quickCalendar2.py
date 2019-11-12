@@ -1,4 +1,7 @@
 from __future__ import print_function
+
+import json
+
 from eventService import EventService
 from eventData import EventData
 
@@ -53,7 +56,7 @@ SCOPES = ['https://www.googleapis.com/auth/calendar']
 #         start = event['start'].get('dateTime', event['start'].get('date'))
 #         print(start, event['summary'])
 
-def add_to_calendar(title, start, end, des, attend):
+def add_to_calendar(event_body):
     creds = None
     # The file token.pickle stores the user's access and refresh tokens, and is
     # created automatically when the authorization flow completes for the first
@@ -76,8 +79,12 @@ def add_to_calendar(title, start, end, des, attend):
     service = build('calendar', 'v3', credentials=creds)
     get_new_event = EventService()
     event_details = EventData()
-    event_to_add = service.events().insert(calendarId='primary', body=(title, start, end, des, attend))
+    event_to_add = service.events().insert(calendarId='primary', body=(event_body))
 
+    # def toJSON(self):
+    #     return json.dumps(self, default=lambda o: o.__dict__,
+    #                       sort_keys=True, indent=4)
 
+# title and start and end and des and attend
 # if __name__ == '__main__':
 #     main()
