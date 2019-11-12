@@ -41,7 +41,7 @@ def weatherURL():
     humidity1 = json_data['hourly']['data'][0]['humidity']
     # rain_prob1 = json_data['hourly']['data'][0]['precipProbability']
     # weather_info1 = json_data['hourly']['data'][0]['icon']
-    description1 = json_data['hourly']['summary']
+    #description1 = json_data['hourly']['summary']
 
     Fahrenheit_to_Celsius1 = (temp1 - 32) * (5 / 9)
     temp_in_celsius1 = round(Fahrenheit_to_Celsius1, 2)
@@ -60,7 +60,7 @@ def weatherURL():
     humidity2 = json_data['hourly']['data'][0]['humidity']
     # rain_prob2 = json_data['hourly']['data'][0]['precipProbability']
     # weather_info = json_data['hourly']['data'][0]['icon']
-    description = json_data['hourly']['summary']
+    #description = json_data['hourly']['summary']
 
     Fahrenheit_to_Celsius2 = (temp2 - 32) * (5 / 9)
     temp_in_celsius2 = round(Fahrenheit_to_Celsius2, 2)
@@ -79,7 +79,7 @@ def weatherURL():
     humidity3 = json_data['hourly']['data'][0]['humidity']
     # rain_prob3 = json_data['hourly']['data'][0]['precipProbability']
     # weather_info = json_data['hourly']['data'][0]['icon']
-    description = json_data['hourly']['summary']
+    #description = json_data['hourly']['summary']
 
     Fahrenheit_to_Celsius3 = (temp3 - 32) * (5 / 9)
     temp_in_celsius3 = round(Fahrenheit_to_Celsius3, 2)
@@ -104,9 +104,9 @@ def weatherURL():
     print('')
     print('')
     # print ('Weather at given time: {} '.format(weather_info1))
-    print('General weather on this day: {} '.format(description1))
+    #print('General weather on this day: {} '.format(description1))
     print('Temperature : {} degree celsius. '.format(averageTemp))
     print('Wind Speed : {} m/s. '.format(averageWindspeed))
     print('Humidity : {} %. '.format(averageHumidity))
     # print('Probability of Rain: {} %. '.format(averageRainProb))
-    print('Description : {}'.format(description1))
+    #print('Description : {}'.format(description1))

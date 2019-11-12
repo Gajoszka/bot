@@ -99,12 +99,3 @@ def email_list(num, attendees_list):
 def description():
     des = input("Describe the event: \n")
     return des
-
-
-def printEvent(summary, start, end, people, description):
-    print("Title of the event: " + summary)
-    print("Start date: " + str(start))
-    print("End date: " + str(end))
-    print("Attendees: ", end='')
-    print(people)
-    print("Description: " + description)
