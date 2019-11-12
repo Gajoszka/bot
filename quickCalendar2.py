@@ -1,5 +1,6 @@
 from __future__ import print_function
 from eventService import EventService
+from eventData import EventData
 
 import datetime
 import os.path
@@ -52,7 +53,7 @@ SCOPES = ['https://www.googleapis.com/auth/calendar']
 #         start = event['start'].get('dateTime', event['start'].get('date'))
 #         print(start, event['summary'])
 
-def add_to_calendar():
+def add_to_calendar(title, start, end, des, attend):
     creds = None
     # The file token.pickle stores the user's access and refresh tokens, and is
     # created automatically when the authorization flow completes for the first
@@ -74,7 +75,8 @@ def add_to_calendar():
 
     service = build('calendar', 'v3', credentials=creds)
     get_new_event = EventService()
-    event_to_add = service.events().insert(calendarId='primary', body=get_new_event.get_event())
+    event_details = EventData()
+    event_to_add = service.events().insert(calendarId='primary', body=(title, start, end, des, attend))
 
 
 # if __name__ == '__main__':

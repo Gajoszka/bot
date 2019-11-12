@@ -1,4 +1,3 @@
-# from calendarAPI import service
 from eventData import EventData
 from eventService import EventService
 from menuService import chooseOption
@@ -35,8 +34,9 @@ class MenuStart:
         if event_data is not None:
             self._events.append(event_data)
             event_data.printing()
+            add_to_calendar(event_data)
             return event_data
-            #event_to_add = service.events().insert(calendarId='primary', body=event_data).execute()
+
 
     def _run_weather(self):
         weatherURL()
