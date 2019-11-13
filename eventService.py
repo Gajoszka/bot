@@ -4,6 +4,8 @@ import json
 from eventData import EventData
 from inputService import *
 from menuService import chooseOption
+import jsondatetime as j_date
+
 
 
 class EventService:
@@ -75,6 +77,8 @@ class EventService:
         self.event_data.end = end_date(self.event_data.start, True)
         self.event_data.start = json.dumps(self.event_data.start, indent=4, sort_keys=True, default=str)
         self.event_data.end = json.dumps(self.event_data.end, indent=4, sort_keys=True, default=str)
+        # self.event_data.start = j_date.loads(self.event_data.start)
+        # self.event_data.end = j_date.loads(self.event_data.end)
 
     def _addPeople(self):
         self.event_data.attendees = attendees()
