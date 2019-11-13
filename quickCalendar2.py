@@ -79,12 +79,4 @@ def add_to_calendar(event_body):
     service = build('calendar', 'v3', credentials=creds)
     get_new_event = EventService()
     event_details = EventData()
-    event_to_add = service.events().insert(calendarId='primary', body=(event_body))
-
-    # def toJSON(self):
-    #     return json.dumps(self, default=lambda o: o.__dict__,
-    #                       sort_keys=True, indent=4)
-
-# title and start and end and des and attend
-# if __name__ == '__main__':
-#     main()
+    event_to_add = service.events().insert(calendarId='primary', body=(event_details.toJson(event_body)))

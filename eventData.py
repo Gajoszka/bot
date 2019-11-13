@@ -24,5 +24,5 @@ class EventData:
               + "\n Attendees: " + str(self.attendees)
               + "\n Description: " + self.description)
 
-    def toJson(self):
+    def toJson(self, a):
         return json.dumps(self.__dict__)

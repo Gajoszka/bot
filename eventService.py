@@ -1,4 +1,6 @@
 """Code adapted from https://cumoodle.coventry.ac.uk/pluginfile.php/3091515/mod_resource/content/20/Lab%20Activity%20-%20Program%20Modules%20Design%20and%20Development%20%28Menu%29%202019%20v3.pdf"""
+import json
+
 from eventData import EventData
 from inputService import *
 from menuService import chooseOption
@@ -71,6 +73,8 @@ class EventService:
 
     def _addDuration(self):
         self.event_data.end = end_date(self.event_data.start, True)
+        self.event_data.start = json.dumps(self.event_data.start, indent=4, sort_keys=True, default=str)
+        self.event_data.end = json.dumps(self.event_data.end, indent=4, sort_keys=True, default=str)
 
     def _addPeople(self):
         self.event_data.attendees = attendees()

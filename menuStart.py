@@ -35,7 +35,8 @@ class MenuStart:
             add_to_calendar(event_service.get_event())
             self._events.append(event_data)
             event_data.printing()
-            add_to_calendar()
+            a = event_data.toJson(event_data)
+            add_to_calendar(a)
             return event_data
 
 
