@@ -7,6 +7,7 @@ def title():
     name = input("What is the title of the event? ")
     return name
 
+
 # checks if start date is before today's date
 def valid_time(s_date):
     if s_date is None:
@@ -18,12 +19,14 @@ def valid_time(s_date):
     else:
         return True
 
+
 # checks if end date is after start date
 def check_dates(date1, date2):
     if date2 < date1:
         return False
     else:
         return True
+
 
 # takes date and converts it to needed format
 def input_date(name):
@@ -45,7 +48,7 @@ def start_date(check):
     s_time: datetime = input_date("start")
     if check and valid_time(s_time) is False:
         print("This date already passed!")
-        start_date(True)
+        return start_date(True)
     return s_time
 
 
@@ -53,8 +56,9 @@ def end_date(s_time, check):
     e_time: datetime = input_date("end")
     if check and check_dates(s_time, e_time) is False:
         print("The end date is before start date!")
-        end_date(s_time, True)
+        return end_date(s_time, True)
     return e_time
+
 
 # checks if email has '@' and valid domain
 def valid_email(email):
@@ -64,6 +68,7 @@ def valid_email(email):
     else:
         return False
 
+
 # checks if number of invites people is integer
 def attendees():
     attendees_list = []
@@ -72,14 +77,15 @@ def attendees():
         num = int(input())
     except ValueError:
         choice = choose_index("Invalid format. Do you want to try again?",
-                                ["Yes", "No"], "Please choose option")
+                              ["Yes", "No"], "Please choose option")
         if choice == 2:
             return None
         else:
-            attendees()
+            return attendees()
     email_list(num, attendees_list)
     print(attendees_list)
     return attendees_list
+
 
 # checks if emails are valid
 def email_list(num, attendees_list):
@@ -87,14 +93,15 @@ def email_list(num, attendees_list):
         attendee = input("Please type email address of invited person: ")
         if valid_email(attendee) is False:
             choice = choose_index("Invalid format. Do you want to try again?",
-                                    ["Yes", "No"], "Please choose option")
+                                  ["Yes", "No"], "Please choose option")
             if choice == 2:
                 return None
             else:
-                email_list(num, attendees_list)
+                return email_list(num, attendees_list)
         else:
             attendees_list.append(attendee)
     return attendees_list
+
 
 def description():
     des = input("Describe the event: \n")
