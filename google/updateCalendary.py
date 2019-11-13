@@ -58,10 +58,13 @@ SCOPES = ['https://www.googleapis.com/auth/calendar']
 
 def add_to_calendar(event_body):
     creds = connect_to_goole()
-    service = build('calendar', 'v3', credentials=creds)
-    get_new_event = EventService()
-    event_details = EventData()
-    event_to_add = service.events().insert(calendarId='primary', body=(event_details.toJson(event_body)))
+    calendar = build('calendar', 'v3', credentials=creds)
+    b = event_body.toJson()
+    json_event = json.loads(event_body.toJson())
+    event_to_add = calendar.events().insert(calendarId='primary', body=json_event,
+                                            sendNotifications=True).execute()
+    print(event_to_add)
+    result = calendar.calendarList().list().execute()
 
 
 def connect_to_goole():

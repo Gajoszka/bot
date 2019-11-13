@@ -1,4 +1,7 @@
 import json
+from datetime import datetime
+
+import pytz
 
 
 class EventData:
@@ -11,6 +14,7 @@ class EventData:
         self.start = None
         self.end = None
         self.attendees = None
+        self.endTimeUnspecified = True
 
     # checks if all required fields are filled
     def check(self):
@@ -25,4 +29,14 @@ class EventData:
               + "\n Description: " + self.description)
 
     def toJson(self):
-        return json.dumps(self.__dict__)
+        return json.dumps(self.__dict__, default=event_converter)
+
+
+def event_converter(o):
+    if isinstance(o, datetime):
+        # return o.__str__()
+        return {
+            # "date": ,
+            "dateTime": pytz.utc.localize(o).isoformat()
+            # "timeZone":
+        }
