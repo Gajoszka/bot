@@ -14,7 +14,7 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 
 # If modifying these scopes, delete the file token.pickle.
-SCOPES = ['https://www.googleapis.com/auth/calendar']
+SCOPES_CALENDAR = ['https://www.googleapis.com/auth/calendar']
 
 
 # def main():
@@ -57,17 +57,14 @@ SCOPES = ['https://www.googleapis.com/auth/calendar']
 #         print(start, event['summary'])
 
 def add_to_calendar(event_body):
-    creds = connect_to_goole()
-    calendar = build('calendar', 'v3', credentials=creds)
-    b = event_body.toJson()
+    calendar = build('calendar', 'v3', credentials=connect_to_goole(SCOPES_CALENDAR))
     json_event = json.loads(event_body.toJson())
     event_to_add = calendar.events().insert(calendarId='primary', body=json_event,
                                             sendNotifications=True).execute()
-    print(event_to_add)
     result = calendar.calendarList().list().execute()
 
 
-def connect_to_goole():
+def connect_to_goole(scopes):
     creds = None
     # The file token.pickle stores the user's access and refresh tokens, and is
     # created automatically when the authorization flow completes for the first
@@ -81,7 +78,7 @@ def connect_to_goole():
             creds.refresh(Request())
         else:
             flow = InstalledAppFlow.from_client_secrets_file(
-                'credentials2.json', SCOPES)
+                'credentials2.json', scopes)
             creds = flow.run_local_server(port=0)
         # Save the credentials for the next run
         # with open('token.pickle', 'wb') as token:
