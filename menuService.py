@@ -16,30 +16,28 @@ def chooseOption(head, options, prompt):
 def menuDisplay(head, options):
     if len(head) > 0:
         nameDisplay(head)
-
     index = 0
     for index in range(len(options)):
         showMenuLine(index + 1, options[index])
-
     return len(options)
 
 
 def nameDisplay(a_name):
     if a_name != '':
-        print("\t" + a_name + "\n")
+        print("\t" + a_name )
 
 
 def showMenuLine(index, text):
     print(str(index) + ". " + text)
 
 
-#Getting valid input from the user
+# Getting valid input from the user
 def getValidInput(prompt, highestNum):
     invalid_answer = False
     while invalid_answer is False:
         user_choice = input(prompt)
         try:
-            if len(user_choice) > 0: # takes first character from user input
+            if len(user_choice) > 0:  # takes first character from user input
                 answer = int(user_choice[0])
             else:
                 answer = -1

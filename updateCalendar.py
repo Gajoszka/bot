@@ -57,6 +57,14 @@ SCOPES = ['https://www.googleapis.com/auth/calendar']
 #         print(start, event['summary'])
 
 def add_to_calendar(event_body):
+    creds = connect_to_goole()
+    service = build('calendar', 'v3', credentials=creds)
+    get_new_event = EventService()
+    event_details = EventData()
+    event_to_add = service.events().insert(calendarId='primary', body=(event_details.toJson(event_body)))
+
+
+def connect_to_goole():
     creds = None
     # The file token.pickle stores the user's access and refresh tokens, and is
     # created automatically when the authorization flow completes for the first
@@ -75,8 +83,4 @@ def add_to_calendar(event_body):
         # Save the credentials for the next run
         # with open('token.pickle', 'wb') as token:
         #     pickle.dump(creds, token)
-
-    service = build('calendar', 'v3', credentials=creds)
-    get_new_event = EventService()
-    # event_details = EventData()
-    event_to_add = service.events().insert(calendarId='primary', body=(event_body.toJson()))
+    return creds
