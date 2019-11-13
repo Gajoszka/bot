@@ -1,5 +1,7 @@
 from datetime import datetime
 
+import pytz
+
 from menuService import choose_index
 
 
@@ -33,6 +35,7 @@ def input_date(name):
     print("What is the " + name + " time?")
     try:
         the_time = datetime.strptime(input("Date (YYYY-mm-dd HH:mm:ss): "), '%Y-%m-%d %H:%M:%S')
+        the_time = pytz.utc.localize(the_time)
     except ValueError:
         # catches exception when format is invalid
         choice = choose_index("Invalid format. Do you want to try again?",

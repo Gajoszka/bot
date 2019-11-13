@@ -6,7 +6,7 @@ from quickCalendar2 import add_to_calendar
 
 
 class MenuStart:
-    _events = [] # creates empty list of events
+    _events = []  # creates empty list of events
     # menu options
     _creation = "Create new event"
     _weather = "Check weather"
@@ -38,7 +38,6 @@ class MenuStart:
             a = event_data.toJson(event_data)
             add_to_calendar(a)
             return event_data
-
 
     def _run_weather(self):
         weatherURL()
