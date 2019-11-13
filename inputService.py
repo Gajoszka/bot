@@ -37,7 +37,7 @@ def input_date(name):
         if choice == 2:
             return None
         else:
-            input_date(name)
+            return input_date(name)
     return the_time
 
 
