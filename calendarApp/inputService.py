@@ -1,8 +1,9 @@
 """Definitions of methods that retrieves information provided by the user"""
 import logging
+from datetime import datetime
+
 import pytz
 
-from datetime import datetime
 from calendarApp.menuService import choose_index
 
 LOGGER = logging.getLogger(__name__)
@@ -13,7 +14,7 @@ def title():
     return name
 
 
-"""checks if start date is before today's date"""
+# checks if start date is before today's date
 def valid_time(s_date):
     if s_date is None:
         return True
@@ -27,7 +28,7 @@ def valid_time(s_date):
         return True
 
 
-"""checks if end date is after start date"""
+# checks if end date is after start date
 def check_dates(date1, date2):
     if date2 < date1:
         return False
@@ -35,7 +36,7 @@ def check_dates(date1, date2):
         return True
 
 
-"""takes date and converts it to needed format"""
+# takes date and converts it to needed format
 def input_date(name):
     print("What is the " + name + " time?")
     try:
@@ -68,7 +69,7 @@ def end_date(s_time, check):
     return e_time
 
 
-"""checks if email has '@' and valid domain"""
+# checks if email has '@' and valid domain
 def valid_email(email):
     if '@' in email:
         if ".com" or ".co.uk" or ".ac.uk" or "yahoo.com" or "outlook.com" in email:
@@ -77,7 +78,7 @@ def valid_email(email):
         return False
 
 
-"""checks if number of invites people is integer"""
+# checks if number of invites people is integer
 def attendees():
     attendees_list = []
     print("How many people do you want to invite?")
@@ -95,7 +96,7 @@ def attendees():
     return attendees_list
 
 
-"""checks if emails are valid"""
+# checks if emails are valid
 def email_list(num, attendees_list):
     for i in range(1, num + 1):
         attendee = input("Please type email address of invited person: ")

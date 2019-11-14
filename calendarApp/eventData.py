@@ -12,8 +12,8 @@ class EventData:
         # creating empty fields to event
         self.summary = None
         self.description = None
-        self.start = None
-        self.end = None
+        self.start: datetime = None
+        self.end: datetime = None
         self.attendees = None
         self.endTimeUnspecified = True
 
@@ -26,7 +26,7 @@ class EventData:
     def toStr(self):
         dictionary = self.__dict__
         return "Title of the event: " + dictionary.get("summary", '') + "\n Start date: " + str(
-            dictionary.get("start", None)) + "\n Duration: " + str(
+            dictionary.get("start", None)) + "\n End date: " + str(
             dictionary.get("end", None)) + "\n Attendees: " + str(
             dictionary.get("attendees", [])) + "\n Description: " + dictionary.get("description")
 
