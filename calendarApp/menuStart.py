@@ -7,6 +7,8 @@ from calendarApp.weather import weatherURL
 
 LOGGER = logging.getLogger(__name__)
 
+CALENDAR_ID = 'primary'
+
 
 class MenuStart:
     _events = []  # creates empty list of events
@@ -34,7 +36,7 @@ class MenuStart:
                 LOGGER.error('Failed: ' + str(e))
 
     def run_show_events(self):
-        events_result = get_from_calendar()
+        events_result = get_from_calendar(CALENDAR_ID)
         events = events_result.get('items', [])
         if not events:
             print('No upcoming events found.')
@@ -50,11 +52,9 @@ class MenuStart:
         # checks if all essentials data is in event
         # if so, adds event to list
         if event_data is not None:
-            add_to_calendar(event_service.get_event())
+            add_to_calendar(event_service.get_event(CALENDAR_ID))
             self._events.append(event_data)
             print(event_data.toStr())
-            # a = event_data.toJson(event_data)
-            # add_to_calendar(a)
             return event_data
 
     def _run_weather(self):

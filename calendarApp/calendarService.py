@@ -22,10 +22,10 @@ LOGGER = logging.getLogger(__name__)
 credentialsDic: dict = {}
 
 
-def add_to_calendar(event_body):
+def add_to_calendar(calendar,event_body):
     calendar = build('calendar', 'v3', credentials=connect_to_google(SCOPE_CALENDAR))
     json_event = json.loads(event_body.toJson())
-    event_to_add = calendar.events().insert(calendarId='primary', body=json_event,
+    event_to_add = calendar.events().insert(calendarId=calendar, body=json_event,
                                             sendNotifications=True).execute()
     try:
         result = calendar.calendarList().list().execute()
@@ -33,12 +33,12 @@ def add_to_calendar(event_body):
         LOGGER.error('Failed: ' + str(e))
 
 
-def get_from_calendar():
+def get_from_calendar(calendar):
     calendar = build('calendar', 'v3', credentials=connect_to_google(CREDENTIAL_FILE_NAME, SCOPE_CALENDAR))
     try:
-        # list = calendar.acl().list(calendarId='primary').execute()
+        # list = calendar.acl().list(calendarId=calendar).execute()
         now = datetime.datetime.utcnow().isoformat() + 'Z'  # 'Z' indicates UTC time
-        return calendar.events().list(calendarId='primary', timeMin=now,
+        return calendar.events().list(calendarId=calendar, timeMin=now,
                                       maxResults=10, singleEvents=True,
                                       orderBy='startTime').execute()
         print('Getting the upcoming 10 events')
