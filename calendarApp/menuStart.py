@@ -1,7 +1,11 @@
+import logging
+
 from calendarApp.eventService import EventService
 from calendarApp.menuService import chooseOption
 from calendarApp.weather import weatherURL
-from calendarApp.calendarService import add_to_calendar
+from calendarApp.calendarService import add_to_calendar, get_from_calendar
+
+LOGGER = logging.getLogger(__name__)
 
 
 class MenuStart:
@@ -12,36 +16,28 @@ class MenuStart:
     _show_events = "Show events"
     _exit = "Exit"
     active = True
-    _menuDefOptions = [_creation, _weather, _exit]
+    _menuDefOptions = [_show_events, _creation, _weather, _exit]
 
     def showMenu(self):
         while self.active:
             choice = chooseOption("Menu", self._menuDefOptions, "Please choose option ")
-            if choice == self._creation:
-                self.run_creation()
-            elif choice == self._weather:
-                self._run_weather()
-            elif choice == self._show_events:
-                self.run_show_events()
-            elif choice == self._exit:
-                self._run_exit()
-
-    def run_creation(self):
-        # creating instance of class Event Service
-        event_service = EventService()
-        event_service.run()
-        event_data = event_service.get_event()
-        # checks if all essentials data is in event
-        # if so, adds event to list
-        if event_data is not None:
-            add_to_calendar(event_service.get_event())
-            self._events.append(event_data)
-            print(event_data.toStr())
-            # a = event_data.toJson(event_data)
-            # add_to_calendar(a)
-            return event_data
+            try:
+                if choice == self._creation:
+                    self.run_creation()
+                elif choice == self._weather:
+                    self._run_weather()
+                elif choice == self._show_events:
+                    self.run_show_events()
+                elif choice == self._exit:
+                    self._run_exit()
+            except Exception as e:
+                LOGGER.error('Failed to upload to ftp: ' + str(e))
 
     def run_show_events(self):
+        events = get_from_calendar()
+        print(events)
+
+    def run_creation(self):
         # creating instance of class Event Service
         event_service = EventService()
         event_service.run()
