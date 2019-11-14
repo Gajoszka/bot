@@ -34,7 +34,7 @@ class EventService:
                 choice = chooseOption("Menu", menu, "Please choose option")
                 self._runActions(choice)
 
-    # creates menu dynamically based on which options have already been used
+    """creates menu dynamically based on which options have already been used"""
     def _create_menu(self):
         _menu_options = []
         if self.event_data.summary is None:
@@ -47,17 +47,18 @@ class EventService:
             _menu_options.append(self._attendees)
         if self.event_data.description is None:
             _menu_options.append(self._description)
+        # static option of menu
         _menu_options.append(self._cancel)
         return _menu_options
 
-    # redirects to particular method based on choice made
+    """redirects to particular method based on choice made"""
     def _runActions(self, choice):
         if choice == self._title:
             self._add_title()
         elif choice == self._start:
             self._add_start()
         elif choice == self._end:
-            self._addDuration()
+            self._add_end()
         elif choice == self._attendees:
             self._addPeople()
         elif choice == self._description:
@@ -65,6 +66,7 @@ class EventService:
         else:
             self._exit()
 
+    """methods that redirects to specific methods and stores information from them as parts of event_data (instance of class EbentData)"""
     def _add_title(self):
         self.event_data.summary = title()
 
@@ -76,8 +78,10 @@ class EventService:
         # make start and end date JSON serialized
         self.event_data.start = json.dumps(self.event_data.start, indent=4, sort_keys=True, default=str)
         self.event_data.end = json.dumps(self.event_data.end, indent=4, sort_keys=True, default=str)
-        # self.event_data.start = j_date.loads(self.event_data.start)
-        # self.event_data.end = j_date.loads(self.event_data.end)
+
+    def _add_end(self):
+        self.event_data.end = end_date()
+
 
     def _addPeople(self):
         self.event_data.attendees = attendees()
@@ -88,7 +92,7 @@ class EventService:
     def get_event(self):
         return self.event_data
 
-    # make sure user really want to exit creating event
+    """make sure user really want to exit creating event"""
     def _exit(self):
         if self.event_data.check() is False:
             choice = choose_index("You haven't finished creating the event.Do you really want to exit?",

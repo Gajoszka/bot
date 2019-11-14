@@ -1,6 +1,6 @@
 """Definitions of methods that retrieves information provided by the user"""
 import logging
-from datetime import datetime
+from datetime import datetime, timedelta
 
 import pytz
 
@@ -14,13 +14,13 @@ def title():
     return name
 
 
-# checks if start date is before today's date
+"""checks if start date is before today's date"""
 def valid_time(s_date):
     if s_date is None:
         return True
     # gets today's date and adds local timezone to it
     today = datetime.today()
-    today = pytz.utc.localize(today)
+    # today = pytz.utc.localize(today)
     if today > s_date:
         print("This date already past.")
         start_date(True)
@@ -28,7 +28,7 @@ def valid_time(s_date):
         return True
 
 
-# checks if end date is after start date
+"""checks if end date is after start date"""
 def check_dates(date1, date2):
     if date2 < date1:
         return False
@@ -36,20 +36,24 @@ def check_dates(date1, date2):
         return True
 
 
-# takes date and converts it to needed format
+"""takes date and converts it to needed format"""
 def input_date(name):
     print("What is the " + name + " time?")
+    the_stime = input("Date (YYYY-mm-dd HH:mm:ss  or YYYY-mm-dd)")
     try:
-        the_time = datetime.strptime(input("Date (YYYY-mm-dd HH:mm:ss): "), '%Y-%m-%d %H:%M:%S')
-        the_time = pytz.utc.localize(the_time)
-    except ValueError:
-        # catches exception when format is invalid
-        choice = choose_index("Invalid format. Do you want to try again?",
-                              ["Yes", "No"], "Please choose option")
-        if choice == 2:
-            return None
-        else:
-            return input_date(name)
+        the_time = datetime.strptime(the_stime, '%Y-%m-%d %H:%M:%S')
+    except ValueError as e:
+        try:
+            the_time = datetime.strptime(the_stime, '%Y-%m-%d')
+        except ValueError as e:
+            # catches exception when format is invalid
+            choice = choose_index("Invalid format. Do you want to try again?",
+                                  ["Yes", "No"], "Please choose option")
+            if choice == 2:
+                return None
+            else:
+                return input_date(name)
+    the_time = the_time + timedelta(microseconds=1)
     return the_time
 
 
@@ -69,7 +73,7 @@ def end_date(s_time, check):
     return e_time
 
 
-# checks if email has '@' and valid domain
+"""checks if email has '@' and valid domain"""
 def valid_email(email):
     if '@' in email:
         if ".com" or ".co.uk" or ".ac.uk" or "yahoo.com" or "outlook.com" in email:
@@ -78,7 +82,7 @@ def valid_email(email):
         return False
 
 
-# checks if number of invites people is integer
+"""checks if number of invites people is integer"""
 def attendees():
     attendees_list = []
     print("How many people do you want to invite?")
@@ -96,7 +100,7 @@ def attendees():
     return attendees_list
 
 
-# checks if emails are valid
+"""checks if emails are valid"""
 def email_list(num, attendees_list):
     for i in range(1, num + 1):
         attendee = input("Please type email address of invited person: ")
