@@ -1,6 +1,7 @@
 from __future__ import print_function
 
 import datetime
+import json
 import os.path
 import pickle
 
@@ -9,8 +10,10 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 
 # If modifying these scopes, delete the file token.pickle.
-SCOPES = ['https://www.googleapis.com/auth/calendar.readonly']
+from eventData import EventData
 
+# SCOPES = ['https://www.googleapis.com/auth/calendar.readonly']
+SCOPES = ['https://www.googleapis.com/auth/calendar']
 
 def main():
     """Shows basic usage of the Google Calendar API.
@@ -40,17 +43,26 @@ def main():
     # Call the Calendar API
     now = datetime.datetime.utcnow().isoformat() + 'Z'  # 'Z' indicates UTC time
     print('Getting the upcoming 10 events')
-    events_result = service.events().list(calendarId='primary', timeMin=now,
+    events_result = service.events().list(calendarId='xlega62@gmail.com', timeMin=now,
                                           maxResults=10, singleEvents=True,
                                           orderBy='startTime').execute()
     events = events_result.get('items', [])
-
+    event = EventData()
+    event.description = "test2"
+    event.end = datetime.datetime.today() + datetime.timedelta(days=1)
+    event.start = datetime.datetime.today()
+    event.summary = "xlega62@gmail.coma"
+    event.attendees = ["ja", "ty"]
+    print(event.__str__())
+    json_event = json.loads(event.toJson())
+    # event_to_add = service.events().insert(calendarId='xlega62@gmail.com', body=json_event,
+    #                                         sendNotifications=True).execute()
     if not events:
         print('No upcoming events found.')
     for event in events:
         start = event['start'].get('dateTime', event['start'].get('date'))
         end = event['end'].get('dateTime', event['end'].get('date'))
-        print(event['summary'], start, end, event['description'])
+        print(event['summary'], start, end, event.get('description', ''))
 
 
 if __name__ == '__main__':
