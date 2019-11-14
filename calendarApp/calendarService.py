@@ -1,15 +1,15 @@
 from __future__ import print_function
 
+import datetime
 import json
 import logging
 import os.path
 import pickle
-import datetime
 
-from googleapiclient.errors import HttpError
 from google.auth.transport.requests import Request
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
+from googleapiclient.errors import HttpError
 
 # If modifying these scopes, delete the file token.pickle.
 RESOURCE_DIR = './calendarApp/'
@@ -43,12 +43,6 @@ def get_from_calendar():
         events_result = calendar.events().list(calendarId='primary', timeMin=now,
                                           maxResults=10, singleEvents=True,
                                           orderBy='startTime').execute()
-        events = events_result.get('items', [])
-        if not events:
-            print('No upcoming events found.')
-        for event in events:
-            start = event['start'].get('dateTime', event['start'].get('date'))
-            print(start, event['summary'])
     except HttpError as e:
         LOGGER.error('Failed: ' + str(e))
     return None
