@@ -23,7 +23,7 @@ credentialsDic: dict = {}
 
 
 def add_to_calendar(calendar, event_body):
-    service = build('calendar', 'v3', credentials=connect_to_google(SCOPE_CALENDAR))
+    service = build('calendar', 'v3', credentials=connect_to_google(CREDENTIAL_FILE_NAME, SCOPE_CALENDAR))
     json_event = json.loads(event_body.toJson())
     try:
         event_to_add = service.events().insert(calendarId=calendar, body=json_event,
