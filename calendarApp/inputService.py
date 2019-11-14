@@ -1,7 +1,7 @@
 """Definitions of methods that retrieves information provided by the user"""
 from datetime import datetime
 import pytz
-from calendarApp import choose_index
+from calendarApp.menuService import choose_index
 
 
 def title():
