@@ -22,25 +22,25 @@ LOGGER = logging.getLogger(__name__)
 credentialsDic: dict = {}
 
 
-def add_to_calendar(calendar,event_body):
-    calendar = build('calendar', 'v3', credentials=connect_to_google(SCOPE_CALENDAR))
+def add_to_calendar(calendar, event_body):
+    service = build('calendar', 'v3', credentials=connect_to_google(SCOPE_CALENDAR))
     json_event = json.loads(event_body.toJson())
-    event_to_add = calendar.events().insert(calendarId=calendar, body=json_event,
-                                            sendNotifications=True).execute()
     try:
-        result = calendar.calendarList().list().execute()
+        event_to_add = service.events().insert(calendarId=calendar, body=json_event,
+                                               sendNotifications=True).execute()
+        result = service.calendarList().list().execute()
     except HttpError as e:
         LOGGER.error('Failed: ' + str(e))
 
 
 def get_from_calendar(calendar):
-    calendar = build('calendar', 'v3', credentials=connect_to_google(CREDENTIAL_FILE_NAME, SCOPE_CALENDAR))
+    service = build('calendar', 'v3', credentials=connect_to_google(CREDENTIAL_FILE_NAME, SCOPE_CALENDAR))
     try:
-        # list = calendar.acl().list(calendarId=calendar).execute()
+        # list = service.acl().list(calendarId=calendar).execute()
         now = datetime.datetime.utcnow().isoformat() + 'Z'  # 'Z' indicates UTC time
-        return calendar.events().list(calendarId=calendar, timeMin=now,
-                                      maxResults=10, singleEvents=True,
-                                      orderBy='startTime').execute()
+        return service.events().list(calendarId=calendar, timeMin=now,
+                                     maxResults=10, singleEvents=True,
+                                     orderBy='startTime').execute()
         print('Getting the upcoming 10 events')
         events_result = calendar.events().list(calendarId='primary', timeMin=now,
                                                maxResults=10, singleEvents=True,
@@ -49,16 +49,15 @@ def get_from_calendar(calendar):
         LOGGER.error('Failed: ' + str(e))
     return None
 
+
 def check_user():
-    service = build('admin', 'directory_v1', credentials=connect_to_google(CREDENTIAL_FILE_NAME,SCOPE_USER))
+    service = build('admin', 'directory_v1', credentials=connect_to_google(CREDENTIAL_FILE_NAME, SCOPE_USER))
 
     try:
         list = results = service.users().list().execute()
-
     except HttpError as e:
         LOGGER.error('Failed: ' + str(e))
     return None
-
 
 
 def connect_to_google(file_name, scope):

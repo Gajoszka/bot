@@ -120,11 +120,12 @@ def description():
 def event_to_str(event):
     result = None
     try:
-        result = "Title of the event: " + event.get("summary", '') \
-                 + "\nStart date: " + str(event['start'].get('dateTime', event['start'].get('date')))
+        result = "Title of the event: " + event.get("summary", '')
         if event['status'] is not None:
             result += "\nStatus: " + str(event["status"])
-        if event['end'] is not None:
+        if event.get('start', None) is not None:
+            result += "\nStart date: " + str(event['start'].get('dateTime', event['start'].get('date')))
+        if event.get('end', None)  is not None:
             result += "\nEnd date: " + str(event['end'].get('dateTime', event['end'].get('date', '')))
         # if event['description'] is not None:
         #     result += "\nDescription: " + str(event["description"])
