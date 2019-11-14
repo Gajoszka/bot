@@ -3,8 +3,9 @@ from datetime import datetime, timedelta
 
 from calendarApp.eventData import EventData
 from testApp.updateCalendary import add_to_calendar
-LOGGER = logging.getLogger(__name__)
 
+LOGGER = logging.getLogger(__name__)
+LOGGER.setLevel(logging.INFO)
 event = EventData()
 event.description = "test2"
 event.end = datetime.today() + timedelta(days=1)
