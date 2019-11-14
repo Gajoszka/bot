@@ -34,8 +34,9 @@ class MenuStart:
                 LOGGER.error('Failed to upload to ftp: ' + str(e))
 
     def run_show_events(self):
-        events = get_from_calendar()
-        print(events)
+        events_result = get_from_calendar()
+        for event in events_result.get('items', []):
+            print(event)
 
     def run_creation(self):
         # creating instance of class Event Service
