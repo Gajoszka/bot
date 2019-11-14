@@ -34,7 +34,7 @@ class MenuStart:
         if event_data is not None:
             add_to_calendar(event_service.get_event())
             self._events.append(event_data)
-            event_data.printing()
+            print(event_data.toStr())
             # a = event_data.toJson(event_data)
             # add_to_calendar(a)
             return event_data
