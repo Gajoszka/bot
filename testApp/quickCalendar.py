@@ -10,7 +10,7 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 
 # If modifying these scopes, delete the file token.pickle.
-from calendarApp import EventData
+from calendarApp.eventData import EventData
 
 # SCOPES = ['https://www.googleapis.com/auth/calendar.readonly']
 SCOPES = ['https://www.googleapis.com/auth/calendar']
