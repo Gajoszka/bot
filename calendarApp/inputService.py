@@ -63,9 +63,9 @@ def start_date():
     return s_time
 
 
-def end_date(s_time, check):
+def end_date(s_time):
     e_time: datetime = input_date("end")
-    if check and check_dates(s_time, e_time) is False:
+    if  check_dates(s_time, e_time) is False:
         print("The end date is before start date!")
         return end_date(s_time, True)
     return e_time

@@ -71,7 +71,7 @@ class EventService:
         self.event_data.start = start_date()
 
     def _add_end(self):
-        self.event_data.end = start_date()
+        self.event_data.end = end_date(self.event_data.start)
 
     def _addPeople(self):
         self.event_data.attendees = attendees()
