@@ -1,7 +1,7 @@
 from calendarApp.eventService import EventService
 from calendarApp.menuService import chooseOption
 from calendarApp.weather import weatherURL
-from calendarApp.quickCalendar2 import add_to_calendar
+from calendarApp.calendarService import add_to_calendar
 
 
 class MenuStart:

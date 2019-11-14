@@ -1,5 +1,5 @@
 from __future__ import print_function
-
+import logging
 import json
 
 import os.path
@@ -10,9 +10,13 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 
 # If modifying these scopes, delete the file token.pickle.
+from googleapiclient.errors import HttpError
+
 SCOPES_CALENDAR = ['https://www.googleapis.com/auth/calendar']
 
 SCOPES_EVENT = ['https://www.googleapis.com/auth/calendar.events']
+
+
 # def main():
 #     """Shows basic usage of the Google Calendar API.
 #     Prints the start and name of the next 10 events on the user's calendar.
@@ -56,8 +60,11 @@ def add_to_calendar(event_body):
     calendar = build('calendar', 'v3', credentials=connect_to_goole(SCOPES_CALENDAR))
     result = calendar.events().list(calendarId='xlega62@gmail.com').execute()
     json_event = json.loads(event_body.toJson())
-    event_to_add = calendar.events().insert(calendarId='xlega62@gmail.com', body=json_event,
-                                            sendNotifications=True).execute()
+    try:
+        event_to_add = calendar.events().insert(calendarId='xlega62@gmail.com', body=json_event,
+                                                sendNotifications=True).execute()
+    except HttpError as e:
+        logging.error('Failed to upload to ftp: ' + str(e))
     result = calendar.calendarList().list().execute()
 
 

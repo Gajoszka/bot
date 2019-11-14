@@ -1,11 +1,12 @@
 from __future__ import print_function
 
 import json
-
+import logging
 import os.path
 import pickle
 
-from google.auth.transport.requests import Request
+from googleapiclient.errors import HttpError
+from testApp.auth.transport.requests import Request
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 
@@ -18,7 +19,10 @@ def add_to_calendar(event_body):
     json_event = json.loads(event_body.toJson())
     event_to_add = calendar.events().insert(calendarId='primary', body=json_event,
                                             sendNotifications=True).execute()
-    result = calendar.calendarList().list().execute()
+    try:
+        result = calendar.calendarList().list().execute()
+    except HttpError as e:
+        logging.error('Failed to upload to ftp: ' + str(e))
 
 
 def connect_to_google(scopes):

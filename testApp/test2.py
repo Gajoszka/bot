@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta
 
 from calendarApp.eventData import EventData
-from calendarApp.updateCalendary import add_to_calendar
+from testApp.updateCalendary import add_to_calendar
 
 event = EventData()
 event.description = "test2"
