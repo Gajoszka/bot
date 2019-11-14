@@ -2,7 +2,8 @@
 import json
 
 from calendarApp.eventData import EventData
-from calendarApp.menuService import chooseOption
+from calendarApp.menuService import chooseOption, choose_index
+from calendarApp.inputService import *
 
 
 class EventService:
