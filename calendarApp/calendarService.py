@@ -15,7 +15,7 @@ CREDENTIAL_FILE_NAME = './calendarApp/credentials2.json'
 SCOPE_CALENDAR = 'https://www.googleapis.com/auth/calendar'
 LOGGER = logging.getLogger(__name__)
 calendar = None
-credentialsDic: dict = {"X": "x"}
+credentialsDic: dict = {}
 
 
 def add_to_calendar(event_body):
