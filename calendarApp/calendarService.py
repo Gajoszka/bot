@@ -1,3 +1,4 @@
+"""The part that works along with google calendar API, responsible for logging in, retrieving and adding events"""
 from __future__ import print_function
 
 import datetime
@@ -15,13 +16,16 @@ from googleapiclient.errors import HttpError
 RESOURCE_DIR = './calendarApp/'
 CREDENTIAL_FILE_NAME = RESOURCE_DIR + 'credentials2.json'
 PICKLE_FILE = RESOURCE_DIR + 'token.pickle'
+# gives access to calendar in read/write mode
 SCOPE_CALENDAR = 'https://www.googleapis.com/auth/calendar'
-SCOPE_USER = 'https://www.googleapis.com/auth/admin.directory.user'
-
+# logging reports problems and progress
+# getLogger creates logger object
 LOGGER = logging.getLogger(__name__)
+# dictionary that saves credentials
 credentialsDic: dict = {}
 
 
+"""adding created event to Google calendar"""
 def add_to_calendar(calendar, event_body):
     service = build('calendar', 'v3', credentials=connect_to_google(CREDENTIAL_FILE_NAME, SCOPE_CALENDAR))
     json_event = json.loads(event_body.toJson())
@@ -30,37 +34,34 @@ def add_to_calendar(calendar, event_body):
                                                sendNotifications=True).execute()
         result = service.calendarList().list().execute()
     except HttpError as e:
+        # logging ERROR - there is a more serious problem which disables software to perform some functions
         LOGGER.error('Failed: ' + str(e))
 
 
+"""gets events from the calendar and displays them"""
 def get_from_calendar(calendar):
     service = build('calendar', 'v3', credentials=connect_to_google(CREDENTIAL_FILE_NAME, SCOPE_CALENDAR))
     try:
-        # list = service.acl().list(calendarId=calendar).execute()
         now = datetime.datetime.utcnow().isoformat() + 'Z'  # 'Z' indicates UTC time
         return service.events().list(calendarId=calendar, timeMin=now,
                                      maxResults=10, singleEvents=True,
                                      orderBy='startTime').execute()
-        print('Getting the upcoming 10 events')
-        events_result = calendar.events().list(calendarId='primary', timeMin=now,
-                                               maxResults=10, singleEvents=True,
-                                               orderBy='startTime').execute()
+    # catches error occurred during connecting to https site
+    # and displays the error
+    # thanks to it program is not ended
     except HttpError as e:
         LOGGER.error('Failed: ' + str(e))
     return None
 
 
-def check_user():
-    service = build('admin', 'directory_v1', credentials=connect_to_google(CREDENTIAL_FILE_NAME, SCOPE_USER))
-
-    try:
-        list = results = service.users().list().execute()
-    except HttpError as e:
-        LOGGER.error('Failed: ' + str(e))
-    return None
-
-
+"""getting credentials for logging to google account"""
+# code adapted from https://developers.google.com/calendar/quickstart/python
+# changes - added if statement for checking occurrence in dictionary
+# no getting and printing events at this point
 def connect_to_google(file_name, scope):
+    # checks if credentials are saved in dictionary
+    # if not it follows to create ones
+    # if so it gets them from dictionary
     if scope not in credentialsDic:
         # The file token.pickle stores the user's access and refresh tokens, and is
         # created automatically when the authorization flow completes for the first

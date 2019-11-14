@@ -1,3 +1,5 @@
+"""Display of the main menu and transfers to chosen options to run further parts"""
+
 import logging
 from datetime import datetime, timedelta
 
@@ -37,6 +39,8 @@ class MenuStart:
             except Exception as e:
                 LOGGER.error('Failed: ' + str(e))
 
+
+    """prints events that are on user's calendar"""
     def run_show_events(self):
         events_result = get_from_calendar(CALENDAR_ID)
         events = events_result.get('items', [])
@@ -46,24 +50,29 @@ class MenuStart:
             print(event_to_str(event))
             print();
 
+
+    """redirects user to menu prepared for event creation and then retrieves gained information"""
     def run_creation(self):
         # creating instance of class Event Service
         event_service = EventService()
         event_service.run()
         event_data = event_service.get_event()
         # event_data = self.mock()
+
         # checks if all essentials data is in event
-        # if so, adds event to list
+        # if so, adds event to list and runs method add_to_calendar
         if event_data is not None:
             add_to_calendar(CALENDAR_ID, event_data)
             self._events.append(event_data)
             print(event_data.toStr())
             return event_data
 
+
+    """redirects to weather file"""
     def _run_weather(self):
         weatherURL()
 
-    # exits program
+    """exits program"""
     def _run_exit(self):
         self.active = False
 
