@@ -49,9 +49,9 @@ class MenuStart:
     def run_creation(self):
         # creating instance of class Event Service
         event_service = EventService()
-        # event_service.run()
-        # event_data = event_service.get_event()
-        event_data = self.mock()
+        event_service.run()
+        event_data = event_service.get_event()
+        # event_data = self.mock()
         # checks if all essentials data is in event
         # if so, adds event to list
         if event_data is not None:
