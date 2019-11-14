@@ -13,4 +13,4 @@ event.start = datetime.today()
 event.summary = "xlega62@gmail.coma"
 event.attendees = ["ja", "ty"]
 LOGGER.info(event.toJson())
-add_to_calendar(event)
+add_to_calendar("primary",event)

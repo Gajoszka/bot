@@ -1,6 +1,8 @@
 import logging
+from datetime import datetime, timedelta
 
 from calendarApp.calendarService import add_to_calendar, get_from_calendar
+from calendarApp.eventData import EventData
 from calendarApp.eventService import EventService, event_to_str
 from calendarApp.menuService import chooseOption
 from calendarApp.weather import weatherURL
@@ -47,12 +49,13 @@ class MenuStart:
     def run_creation(self):
         # creating instance of class Event Service
         event_service = EventService()
-        event_service.run()
-        event_data = event_service.get_event()
+        # event_service.run()
+        # event_data = event_service.get_event()
+        event_data = self.mock()
         # checks if all essentials data is in event
         # if so, adds event to list
         if event_data is not None:
-            add_to_calendar(CALENDAR_ID, event_service.get_event())
+            add_to_calendar(CALENDAR_ID, event_data)
             self._events.append(event_data)
             print(event_data.toStr())
             return event_data
@@ -63,3 +66,12 @@ class MenuStart:
     # exits program
     def _run_exit(self):
         self.active = False
+
+    def mock(self):
+        event = EventData()
+        event.description = "test2"
+        event.end = datetime.today() + timedelta(days=1)
+        event.start = datetime.today()
+        event.summary = "xlega62@gmail.coma"
+        event.attendees = ["ja", "ty"]
+        return event;
