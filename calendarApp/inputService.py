@@ -57,9 +57,9 @@ def input_date(name):
     return the_time
 
 
-def start_date(check):
+def start_date():
     s_time: datetime = input_date("start")
-    if check and valid_time(s_time) is False:
+    if valid_time(s_time) is False:
         print("This date already passed!")
         return start_date(True)
     return s_time
