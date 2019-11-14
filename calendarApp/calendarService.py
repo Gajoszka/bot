@@ -16,8 +16,9 @@ RESOURCE_DIR = './calendarApp/'
 CREDENTIAL_FILE_NAME = RESOURCE_DIR + 'credentials2.json'
 PICKLE_FILE = RESOURCE_DIR + 'token.pickle'
 SCOPE_CALENDAR = 'https://www.googleapis.com/auth/calendar'
+SCOPE_USER = 'https://www.googleapis.com/auth/admin.directory.user'
+
 LOGGER = logging.getLogger(__name__)
-calendar = None
 credentialsDic: dict = {}
 
 
@@ -35,17 +36,29 @@ def add_to_calendar(event_body):
 def get_from_calendar():
     calendar = build('calendar', 'v3', credentials=connect_to_google(CREDENTIAL_FILE_NAME, SCOPE_CALENDAR))
     try:
+        # list = calendar.acl().list(calendarId='primary').execute()
         now = datetime.datetime.utcnow().isoformat() + 'Z'  # 'Z' indicates UTC time
         return calendar.events().list(calendarId='primary', timeMin=now,
                                       maxResults=10, singleEvents=True,
                                       orderBy='startTime').execute()
         print('Getting the upcoming 10 events')
         events_result = calendar.events().list(calendarId='primary', timeMin=now,
-                                          maxResults=10, singleEvents=True,
-                                          orderBy='startTime').execute()
+                                               maxResults=10, singleEvents=True,
+                                               orderBy='startTime').execute()
     except HttpError as e:
         LOGGER.error('Failed: ' + str(e))
     return None
+
+def check_user():
+    service = build('admin', 'directory_v1', credentials=connect_to_google(CREDENTIAL_FILE_NAME,SCOPE_USER))
+
+    try:
+        list = results = service.users().list().execute()
+
+    except HttpError as e:
+        LOGGER.error('Failed: ' + str(e))
+    return None
+
 
 
 def connect_to_google(file_name, scope):
