@@ -1,7 +1,12 @@
 """Definitions of methods that retrieves information provided by the user"""
+import logging
 from datetime import datetime
+
 import pytz
+
 from calendarApp.menuService import choose_index
+
+LOGGER = logging.getLogger(__name__)
 
 
 def title():
@@ -112,8 +117,20 @@ def description():
     return des
 
 
-def event_to_str(self, event):
-    return "Title of the event: " + event.get("summary", '') + "\n Start date: " + str(
-        event.get("start", None)) + "\n Duration: " + str(
-        event.get("end", None)) + "\n Attendees: " + str(
-        event.get("attendees", [])) + "\n Description: " + event.get("description")
+def event_to_str(event):
+    result = None
+    try:
+        result = "Title of the event: " + event.get("summary", '') \
+                 + "\nStart date: " + str(event['start'].get('dateTime', event['start'].get('date')))
+        if event['status'] is not None:
+            result += "\nStatus: " + str(event["status"])
+        if event['end'] is not None:
+            result += "\nEnd date: " + str(event['end'].get('dateTime', event['end'].get('date', '')))
+        # if event['description'] is not None:
+        #     result += "\nDescription: " + str(event["description"])
+        if event.get('attendees', None) is not None:
+            result += "\nAttendees: " + str(event["attendees"])
+
+    except Exception as e:
+        LOGGER.error('Failed: ' + str(e))
+    return result

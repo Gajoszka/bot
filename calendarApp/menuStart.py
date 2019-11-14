@@ -1,7 +1,7 @@
 import logging
 
 from calendarApp.calendarService import add_to_calendar, get_from_calendar
-from calendarApp.eventService import EventService
+from calendarApp.eventService import EventService, event_to_str
 from calendarApp.menuService import chooseOption
 from calendarApp.weather import weatherURL
 
@@ -38,11 +38,9 @@ class MenuStart:
         events = events_result.get('items', [])
         if not events:
             print('No upcoming events found.')
-        for event in events:
-            start = event['start'].get('dateTime', event['start'].get('date'))
-            print(start, event['summary'])
-        # for event in events_result.get('items', []):
-        #     event_to_str(event)
+        for event in events_result.get('items', []):
+            print(event_to_str(event))
+            print();
 
     def run_creation(self):
         # creating instance of class Event Service

@@ -1,9 +1,8 @@
 import json
 from datetime import datetime
+
 # import jsondatetime as j_date
 import pytz
-
-from calendarApp.inputService import event_to_str
 
 
 class EventData:
@@ -23,8 +22,11 @@ class EventData:
         return self.start is not None and self.end is not None and self.summary is not None and self.attendees is not None and self.description is not None
 
     def toStr(self):
-        return event_to_str( self.__dict__)
-
+        dictionary = self.__dict__
+        return "Title of the event: " + dictionary.get("summary", '') + "\n Start date: " + str(
+            dictionary.get("start", None)) + "\n Duration: " + str(
+            dictionary.get("end", None)) + "\n Attendees: " + str(
+            dictionary.get("attendees", [])) + "\n Description: " + dictionary.get("description")
 
     def toJson(self):
         return json.dumps(self.__dict__, default=event_converter)
