@@ -75,6 +75,7 @@ class EventService:
 
     def _addDuration(self):
         self.event_data.end = end_date(self.event_data.start, True)
+        # make start and end date JSON serialized
         self.event_data.start = json.dumps(self.event_data.start, indent=4, sort_keys=True, default=str)
         self.event_data.end = json.dumps(self.event_data.end, indent=4, sort_keys=True, default=str)
         # self.event_data.start = j_date.loads(self.event_data.start)
