@@ -9,6 +9,7 @@ class MenuStart:
     # menu options
     _creation = "Create new event"
     _weather = "Check weather"
+    _show_events = "Show events"
     _exit = "Exit"
     active = True
     _menuDefOptions = [_creation, _weather, _exit]
