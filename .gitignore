@@ -4,6 +4,7 @@
 *.iml
 *.ipr
 
+.pickle
 .tox
 .pytest_cache
 .ipynb_checkpoints

@@ -15,7 +15,7 @@ def valid_time(s_date):
         return True
     # gets today's date and adds local timezone to it
     today = datetime.today()
-    today = pytz.utc.localize(today)  
+    today = pytz.utc.localize(today)
     if today > s_date:
         print("This date already past.")
         start_date(True)
@@ -37,7 +37,7 @@ def input_date(name):
     try:
         the_time = datetime.strptime(input("Date (YYYY-mm-dd HH:mm:ss): "), '%Y-%m-%d %H:%M:%S')
         the_time = pytz.utc.localize(the_time)
-    except ValueError :
+    except ValueError:
         # catches exception when format is invalid
         choice = choose_index("Invalid format. Do you want to try again?",
                               ["Yes", "No"], "Please choose option")
@@ -110,3 +110,10 @@ def email_list(num, attendees_list):
 def description():
     des = input("Describe the event: \n")
     return des
+
+
+def event_to_str(self, event):
+    return "Title of the event: " + event.get("summary", '') + "\n Start date: " + str(
+        event.get("start", None)) + "\n Duration: " + str(
+        event.get("end", None)) + "\n Attendees: " + str(
+        event.get("attendees", [])) + "\n Description: " + event.get("description")

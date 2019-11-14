@@ -4,6 +4,7 @@ from calendarApp.eventService import EventService
 from calendarApp.menuService import chooseOption
 from calendarApp.weather import weatherURL
 from calendarApp.calendarService import add_to_calendar, get_from_calendar
+from calendarApp.inputService import event_to_str
 
 LOGGER = logging.getLogger(__name__)
 
@@ -35,8 +36,8 @@ class MenuStart:
 
     def run_show_events(self):
         events_result = get_from_calendar()
-        for event in events_result.get('items', []):
-            print(event)
+        # for event in events_result.get('items', []):
+        #     event_to_str(event)
 
     def run_creation(self):
         # creating instance of class Event Service

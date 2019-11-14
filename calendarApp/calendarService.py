@@ -12,7 +12,9 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 
 # If modifying these scopes, delete the file token.pickle.
-CREDENTIAL_FILE_NAME = './calendarApp/credentials2.json'
+RESOURCE_DIR = './calendarApp/'
+CREDENTIAL_FILE_NAME = RESOURCE_DIR + 'credentials2.json'
+PICKLE_FILE = RESOURCE_DIR + 'token.pickle'
 SCOPE_CALENDAR = 'https://www.googleapis.com/auth/calendar'
 LOGGER = logging.getLogger(__name__)
 calendar = None
@@ -35,8 +37,8 @@ def get_from_calendar():
     try:
         now = datetime.datetime.utcnow().isoformat() + 'Z'  # 'Z' indicates UTC time
         return calendar.events().list(calendarId='primary', timeMin=now,
-                                          maxResults=10, singleEvents=True,
-                                          orderBy='startTime').execute()
+                                      maxResults=10, singleEvents=True,
+                                      orderBy='startTime').execute()
     except HttpError as e:
         LOGGER.error('Failed: ' + str(e))
     return None
@@ -48,8 +50,8 @@ def connect_to_google(file_name, scope):
         # created automatically when the authorization flow completes for the first
         # time.
         credential = None
-        if os.path.exists('token.pickle'):
-            with open('token.pickle', 'rb') as token:
+        if os.path.exists(PICKLE_FILE):
+            with open(PICKLE_FILE, 'rb') as token:
                 credential = pickle.load(token)
         # If there are no (valid) credentials available, let the user log in.
         if not credential or not credential.valid:
@@ -59,6 +61,9 @@ def connect_to_google(file_name, scope):
                 flow = InstalledAppFlow.from_client_secrets_file(file_name, [scope])
                 credential = flow.run_local_server(port=0)
                 credentialsDic[scope] = credential
+                # Save the credentials for the next run
+                with open(PICKLE_FILE, 'wb') as token:
+                    pickle.dump(credential, token)
     else:
         credential = credentialsDic[scope]
     return credential
