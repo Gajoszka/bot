@@ -26,9 +26,6 @@ def add_to_calendar(event_body):
                                             sendNotifications=True).execute()
     try:
         result = calendar.calendarList().list().execute()
-        events_result = calendar.events().list(calendarId='primary', timeMin=datetime.now,
-                                          maxResults=10, singleEvents=True,
-                                          orderBy='startTime').execute()
     except HttpError as e:
         LOGGER.error('Failed: ' + str(e))
 
@@ -36,7 +33,10 @@ def add_to_calendar(event_body):
 def get_from_calendar():
     calendar = build('calendar', 'v3', credentials=connect_to_google(CREDENTIAL_FILE_NAME, SCOPE_CALENDAR))
     try:
-        return calendar.calendarList().list().execute()
+        now = datetime.datetime.utcnow().isoformat() + 'Z'  # 'Z' indicates UTC time
+        return calendar.events().list(calendarId='primary', timeMin=now,
+                                          maxResults=10, singleEvents=True,
+                                          orderBy='startTime').execute()
     except HttpError as e:
         LOGGER.error('Failed: ' + str(e))
     return None
