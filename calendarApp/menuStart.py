@@ -21,10 +21,27 @@ class MenuStart:
                 self.run_creation()
             elif choice == self._weather:
                 self._run_weather()
+            elif choice == self._show_events:
+                self.run_show_events()
             elif choice == self._exit:
                 self._run_exit()
 
     def run_creation(self):
+        # creating instance of class Event Service
+        event_service = EventService()
+        event_service.run()
+        event_data = event_service.get_event()
+        # checks if all essentials data is in event
+        # if so, adds event to list
+        if event_data is not None:
+            add_to_calendar(event_service.get_event())
+            self._events.append(event_data)
+            print(event_data.toStr())
+            # a = event_data.toJson(event_data)
+            # add_to_calendar(a)
+            return event_data
+
+    def run_show_events(self):
         # creating instance of class Event Service
         event_service = EventService()
         event_service.run()
