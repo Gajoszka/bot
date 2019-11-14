@@ -16,7 +16,7 @@ from googleapiclient.discovery import build
 # If modifying these scopes, delete the file token.pickle.
 SCOPES_CALENDAR = ['https://www.googleapis.com/auth/calendar']
 
-
+SCOPES_EVENT = ['https://www.googleapis.com/auth/calendar.events']
 # def main():
 #     """Shows basic usage of the Google Calendar API.
 #     Prints the start and name of the next 10 events on the user's calendar.
@@ -58,8 +58,9 @@ SCOPES_CALENDAR = ['https://www.googleapis.com/auth/calendar']
 
 def add_to_calendar(event_body):
     calendar = build('calendar', 'v3', credentials=connect_to_goole(SCOPES_CALENDAR))
+    result = calendar.events().list(calendarId='xlega62@gmail.com').execute()
     json_event = json.loads(event_body.toJson())
-    event_to_add = calendar.events().insert(calendarId='primary', body=json_event,
+    event_to_add = calendar.events().insert(calendarId='xlega62@gmail.com', body=json_event,
                                             sendNotifications=True).execute()
     result = calendar.calendarList().list().execute()
 
@@ -78,7 +79,7 @@ def connect_to_goole(scopes):
             creds.refresh(Request())
         else:
             flow = InstalledAppFlow.from_client_secrets_file(
-                'credentials2.json', scopes)
+                'credentials.json', scopes)
             creds = flow.run_local_server(port=0)
         # Save the credentials for the next run
         # with open('token.pickle', 'wb') as token:
