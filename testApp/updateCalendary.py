@@ -15,7 +15,7 @@ from googleapiclient.errors import HttpError
 SCOPES_CALENDAR = ['https://www.googleapis.com/auth/calendar']
 
 SCOPES_EVENT = ['https://www.googleapis.com/auth/calendar.events']
-
+LOGGER = logging.getLogger(__name__)
 
 # def main():
 #     """Shows basic usage of the Google Calendar API.
@@ -64,7 +64,7 @@ def add_to_calendar(event_body):
         event_to_add = calendar.events().insert(calendarId='xlega62@gmail.com', body=json_event,
                                                 sendNotifications=True).execute()
     except HttpError as e:
-        logging.error('Failed to upload to ftp: ' + str(e))
+        LOGGER.error('Failed to upload to ftp: ' + str(e))
     result = calendar.calendarList().list().execute()
 
 

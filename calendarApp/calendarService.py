@@ -12,7 +12,7 @@ from googleapiclient.discovery import build
 
 # If modifying these scopes, delete the file token.pickle.
 SCOPES_CALENDAR = ['https://www.googleapis.com/auth/calendar']
-
+LOGGER = logging.getLogger(__name__)
 
 def add_to_calendar(event_body):
     calendar = build('calendar', 'v3', credentials=connect_to_google(SCOPES_CALENDAR))
@@ -22,7 +22,7 @@ def add_to_calendar(event_body):
     try:
         result = calendar.calendarList().list().execute()
     except HttpError as e:
-        logging.error('Failed to upload to ftp: ' + str(e))
+        LOGGER.error('Failed to upload to ftp: ' + str(e))
 
 
 def connect_to_google(scopes):
