@@ -52,7 +52,7 @@ class MenuStart:
         # checks if all essentials data is in event
         # if so, adds event to list
         if event_data is not None:
-            add_to_calendar(event_service.get_event(CALENDAR_ID))
+            add_to_calendar(CALENDAR_ID, event_service.get_event())
             self._events.append(event_data)
             print(event_data.toStr())
             return event_data
