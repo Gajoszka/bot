@@ -15,6 +15,7 @@ def valid_time(s_date):
     if s_date is None:
         return True
     today = datetime.today()
+    today = pytz.utc.localize(today)
     if today > s_date:
         print("This date already past.")
         start_date(True)
