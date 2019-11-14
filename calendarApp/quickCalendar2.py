@@ -2,10 +2,6 @@ from __future__ import print_function
 
 import json
 
-from eventService import EventService
-from eventData import EventData
-
-import datetime
 import os.path
 import pickle
 

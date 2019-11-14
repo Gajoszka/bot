@@ -1,8 +1,7 @@
-from eventData import EventData
-from eventService import EventService
-from menuService import chooseOption
-from weather import weatherURL
-from quickCalendar2 import add_to_calendar
+from calendarApp.eventService import EventService
+from calendarApp.menuService import chooseOption
+from calendarApp.weather import weatherURL
+from calendarApp.quickCalendar2 import add_to_calendar
 
 
 class MenuStart:
