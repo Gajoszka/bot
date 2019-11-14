@@ -4,6 +4,7 @@ import json
 import logging
 import os.path
 import pickle
+import datetime
 
 from googleapiclient.errors import HttpError
 from google.auth.transport.requests import Request
@@ -25,8 +26,11 @@ def add_to_calendar(event_body):
                                             sendNotifications=True).execute()
     try:
         result = calendar.calendarList().list().execute()
+        events_result = calendar.events().list(calendarId='primary', timeMin=datetime.now,
+                                          maxResults=10, singleEvents=True,
+                                          orderBy='startTime').execute()
     except HttpError as e:
-        LOGGER.error('Failed to upload to ftp: ' + str(e))
+        LOGGER.error('Failed: ' + str(e))
 
 
 def get_from_calendar():
@@ -34,7 +38,7 @@ def get_from_calendar():
     try:
         return calendar.calendarList().list().execute()
     except HttpError as e:
-        LOGGER.error('Failed to upload to ftp: ' + str(e))
+        LOGGER.error('Failed: ' + str(e))
     return None
 
 
