@@ -1,7 +1,6 @@
 """Code adapted from https://cumoodle.coventry.ac.uk/pluginfile.php/3091515/mod_resource/content/20/Lab%20Activity%20-%20Program%20Modules%20Design%20and%20Development%20%28Menu%29%202019%20v3.pdf"""
 
 from calendarApp.eventData import EventData
-from calendarApp.menuService import chooseOption, choose_index
 from calendarApp.inputService import *
 from calendarApp.menuService import chooseOption
 
@@ -35,6 +34,7 @@ class EventService:
                 self._runActions(choice)
 
     """creates menu dynamically based on which options have already been used"""
+
     def _create_menu(self):
         _menu_options = []
         if self.event_data.summary is None:
@@ -52,6 +52,7 @@ class EventService:
         return _menu_options
 
     """redirects to particular method based on choice made"""
+
     def _runActions(self, choice):
         if choice == self._title:
             self._add_title()
@@ -67,6 +68,7 @@ class EventService:
             self._exit()
 
     """methods that redirects to specific methods and stores information from them as parts of event_data (instance of class EbentData)"""
+
     def _add_title(self):
         self.event_data.summary = title()
 
@@ -74,7 +76,7 @@ class EventService:
         self.event_data.start = start_date()
 
     def _add_end(self):
-        self.event_data.end = start_date()
+        self.event_data.end = end_date(self.event_data.start)
 
     def _addPeople(self):
         self.event_data.attendees = attendees()
@@ -86,6 +88,7 @@ class EventService:
         return self.event_data
 
     """make sure user really want to exit creating event"""
+
     def _exit(self):
         if self.event_data.check() is False:
             choice = choose_index("You haven't finished creating the event.Do you really want to exit?",

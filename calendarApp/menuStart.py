@@ -39,8 +39,8 @@ class MenuStart:
             except Exception as e:
                 LOGGER.error('Failed: ' + str(e))
 
-
     """prints events that are on user's calendar"""
+
     def run_show_events(self):
         events_result = get_from_calendar(CALENDAR_ID)
         events = events_result.get('items', [])
@@ -50,8 +50,8 @@ class MenuStart:
             print(event_to_str(event))
             print();
 
-
     """redirects user to menu prepared for event creation and then retrieves gained information"""
+
     def run_creation(self):
         # creating instance of class Event Service
         event_service = EventService()
@@ -67,12 +67,13 @@ class MenuStart:
             print(event_data.toStr())
             return event_data
 
-
     """redirects to weather file"""
+
     def _run_weather(self):
         weatherURL()
 
     """exits program"""
+
     def _run_exit(self):
         self.active = False
 
