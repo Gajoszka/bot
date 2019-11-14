@@ -1,7 +1,6 @@
+"""Definitions of methods that retrieves information provided by the user"""
 from datetime import datetime
-
 import pytz
-
 from menuService import choose_index
 
 
@@ -14,8 +13,9 @@ def title():
 def valid_time(s_date):
     if s_date is None:
         return True
+    # gets today's date and adds local timezone to it
     today = datetime.today()
-    today = pytz.utc.localize(today)
+    today = pytz.utc.localize(today)  
     if today > s_date:
         print("This date already past.")
         start_date(True)
