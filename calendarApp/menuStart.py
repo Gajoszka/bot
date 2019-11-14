@@ -31,7 +31,7 @@ class MenuStart:
                 elif choice == self._exit:
                     self._run_exit()
             except Exception as e:
-                LOGGER.error('Failed to upload to ftp: ' + str(e))
+                LOGGER.error('Failed: ' + str(e))
 
     def run_show_events(self):
         events_result = get_from_calendar()
