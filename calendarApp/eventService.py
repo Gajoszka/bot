@@ -1,9 +1,8 @@
 """Code adapted from https://cumoodle.coventry.ac.uk/pluginfile.php/3091515/mod_resource/content/20/Lab%20Activity%20-%20Program%20Modules%20Design%20and%20Development%20%28Menu%29%202019%20v3.pdf"""
-import json
 
 from calendarApp.eventData import EventData
-from calendarApp.menuService import chooseOption, choose_index
 from calendarApp.inputService import *
+from calendarApp.menuService import chooseOption
 
 
 class EventService:
@@ -57,7 +56,7 @@ class EventService:
         elif choice == self._start:
             self._add_start()
         elif choice == self._end:
-            self._addDuration()
+            self._add_end()
         elif choice == self._attendees:
             self._addPeople()
         elif choice == self._description:
@@ -69,15 +68,10 @@ class EventService:
         self.event_data.summary = title()
 
     def _add_start(self):
-        self.event_data.start = start_date(True)
+        self.event_data.start = start_date()
 
-    def _addDuration(self):
-        self.event_data.end = end_date(self.event_data.start, True)
-        # make start and end date JSON serialized
-        self.event_data.start = json.dumps(self.event_data.start, indent=4, sort_keys=True, default=str)
-        self.event_data.end = json.dumps(self.event_data.end, indent=4, sort_keys=True, default=str)
-        # self.event_data.start = j_date.loads(self.event_data.start)
-        # self.event_data.end = j_date.loads(self.event_data.end)
+    def _add_end(self):
+        self.event_data.end = start_date()
 
     def _addPeople(self):
         self.event_data.attendees = attendees()

@@ -1,8 +1,6 @@
 """Definitions of methods that retrieves information provided by the user"""
 import logging
-from datetime import datetime
-
-import pytz
+from datetime import datetime, timedelta
 
 from calendarApp.menuService import choose_index
 
@@ -20,7 +18,7 @@ def valid_time(s_date):
         return True
     # gets today's date and adds local timezone to it
     today = datetime.today()
-    today = pytz.utc.localize(today)
+    # today = pytz.utc.localize(today)
     if today > s_date:
         print("This date already past.")
         start_date(True)
@@ -39,23 +37,27 @@ def check_dates(date1, date2):
 # takes date and converts it to needed format
 def input_date(name):
     print("What is the " + name + " time?")
+    the_stime = input("Date (YYYY-mm-dd HH:mm:ss  or YYYY-mm-dd)")
     try:
-        the_time = datetime.strptime(input("Date (YYYY-mm-dd HH:mm:ss): "), '%Y-%m-%d %H:%M:%S')
-        the_time = pytz.utc.localize(the_time)
-    except ValueError:
-        # catches exception when format is invalid
-        choice = choose_index("Invalid format. Do you want to try again?",
-                              ["Yes", "No"], "Please choose option")
-        if choice == 2:
-            return None
-        else:
-            return input_date(name)
+        the_time = datetime.strptime(the_stime, '%Y-%m-%d %H:%M:%S')
+    except ValueError as e:
+        try:
+            the_time = datetime.strptime(the_stime, '%Y-%m-%d')
+        except ValueError as e:
+            # catches exception when format is invalid
+            choice = choose_index("Invalid format. Do you want to try again?",
+                                  ["Yes", "No"], "Please choose option")
+            if choice == 2:
+                return None
+            else:
+                return input_date(name)
+    the_time = the_time + timedelta(microseconds=1)
     return the_time
 
 
-def start_date(check):
+def start_date():
     s_time: datetime = input_date("start")
-    if check and valid_time(s_time) is False:
+    if valid_time(s_time) is False:
         print("This date already passed!")
         return start_date(True)
     return s_time
@@ -125,7 +127,7 @@ def event_to_str(event):
             result += "\nStatus: " + str(event["status"])
         if event.get('start', None) is not None:
             result += "\nStart date: " + str(event['start'].get('dateTime', event['start'].get('date')))
-        if event.get('end', None)  is not None:
+        if event.get('end', None) is not None:
             result += "\nEnd date: " + str(event['end'].get('dateTime', event['end'].get('date', '')))
         # if event['description'] is not None:
         #     result += "\nDescription: " + str(event["description"])
