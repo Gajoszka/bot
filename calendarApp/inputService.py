@@ -13,6 +13,8 @@ def title():
 
 
 """checks if start date is before today's date"""
+
+
 def valid_time(s_date):
     if s_date is None:
         return True
@@ -27,6 +29,8 @@ def valid_time(s_date):
 
 
 """checks if end date is after start date"""
+
+
 def check_dates(date1, date2):
     if date2 < date1:
         return False
@@ -35,6 +39,8 @@ def check_dates(date1, date2):
 
 
 """takes date and converts it to needed format"""
+
+
 def input_date(name):
     print("What is the " + name + " time?")
     the_stime = input("Date (YYYY-mm-dd HH:mm:ss  or YYYY-mm-dd)")
@@ -65,13 +71,15 @@ def start_date():
 
 def end_date(s_time):
     e_time: datetime = input_date("end")
-    if  check_dates(s_time, e_time) is False:
+    if check_dates(s_time, e_time) is False:
         print("The end date is before start date!")
         return end_date(s_time, True)
     return e_time
 
 
 """checks if email has '@' and valid domain"""
+
+
 def valid_email(email):
     if '@' in email:
         if ".com" or ".co.uk" or ".ac.uk" or "yahoo.com" or "outlook.com" in email:
@@ -81,6 +89,8 @@ def valid_email(email):
 
 
 """checks if number of invites people is integer"""
+
+
 def attendees():
     attendees_list = []
     print("How many people do you want to invite?")
@@ -99,6 +109,8 @@ def attendees():
 
 
 """checks if emails are valid"""
+
+
 def email_list(num, attendees_list):
     for i in range(1, num + 1):
         attendee = input("Please type email address of invited person: ")
@@ -127,7 +139,7 @@ def event_to_str(event):
             result += "\nStatus: " + str(event["status"])
         if event.get('start', None) is not None:
             result += "\nStart date: " + str(event['start'].get('dateTime', event['start'].get('date')))
-        if event.get('end', None)  is not None:
+        if event.get('end', None) is not None:
             result += "\nEnd date: " + str(event['end'].get('dateTime', event['end'].get('date', '')))
         # if event['description'] is not None:
         #     result += "\nDescription: " + str(event["description"])

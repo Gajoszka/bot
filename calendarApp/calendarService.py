@@ -23,8 +23,9 @@ LOGGER = logging.getLogger(__name__)
 # dictionary that saves credentials
 credentialsDic: dict = {}
 
-
 """adding created event to Google calendar"""
+
+
 def add_to_calendar(calendar, event_body):
     service = build('calendar', 'v3', credentials=connect_to_google(CREDENTIAL_FILE_NAME, SCOPE_CALENDAR))
     json_event = json.loads(event_body.toJson())
@@ -38,6 +39,8 @@ def add_to_calendar(calendar, event_body):
 
 
 """gets events from the calendar and displays them"""
+
+
 def get_from_calendar(calendar):
     service = build('calendar', 'v3', credentials=connect_to_google(CREDENTIAL_FILE_NAME, SCOPE_CALENDAR))
     try:
@@ -54,6 +57,8 @@ def get_from_calendar(calendar):
 
 
 """getting credentials for logging to google account"""
+
+
 # code adapted from https://developers.google.com/calendar/quickstart/python
 # changes - added if statement for checking occurrence in dictionary
 # no getting and printing events at this point

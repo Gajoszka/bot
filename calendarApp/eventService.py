@@ -34,6 +34,7 @@ class EventService:
                 self._runActions(choice)
 
     """creates menu dynamically based on which options have already been used"""
+
     def _create_menu(self):
         _menu_options = []
         if self.event_data.summary is None:
@@ -51,6 +52,7 @@ class EventService:
         return _menu_options
 
     """redirects to particular method based on choice made"""
+
     def _runActions(self, choice):
         if choice == self._title:
             self._add_title()
@@ -66,6 +68,7 @@ class EventService:
             self._exit()
 
     """methods that redirects to specific methods and stores information from them as parts of event_data (instance of class EbentData)"""
+
     def _add_title(self):
         self.event_data.summary = title()
 
@@ -85,6 +88,7 @@ class EventService:
         return self.event_data
 
     """make sure user really want to exit creating event"""
+
     def _exit(self):
         if self.event_data.check() is False:
             choice = choose_index("You haven't finished creating the event.Do you really want to exit?",

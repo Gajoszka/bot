@@ -18,11 +18,12 @@ class EventData:
         self.endTimeUnspecified = True
 
     """checks if all required fields are filled"""
+
     def check(self):
         return self.start is not None and self.end is not None and self.summary is not None and self.attendees is not None and self.description is not None
 
-
     """creates a dictionary from collected information"""
+
     def toStr(self):
         dictionary = self.__dict__
         return "Title of the event: " + dictionary.get("summary", '') + "\n Start date: " + str(
@@ -31,6 +32,7 @@ class EventData:
             dictionary.get("attendees", [])) + "\n Description: " + dictionary.get("description")
 
     """converts dictionary to object JSON serialized"""
+
     def toJson(self):
         return json.dumps(self.__dict__, default=event_converter)
 

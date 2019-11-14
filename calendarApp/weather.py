@@ -2,11 +2,11 @@
 It is his part of code added to the project"""
 
 import statistics
+
 import requests
 
 
 def weatherURL():
-
     api_url = 'http://api.openweathermap.org/data/2.5/weather?appid=73041764461c75168f67f580c696f3a4&q='
     name_City = input('City Name :')
     url = api_url + name_City
@@ -48,7 +48,7 @@ def weatherURL():
     else:
         rain_prob1_percentage = None
 
-    #weather_info1 = json_data['hourly']['data'][0]['icon']
+    # weather_info1 = json_data['hourly']['data'][0]['icon']
     if 'icon' in json_data['hourly']['data'][0]:
         weather_info1 = json_data['hourly']['data'][0]['icon']
 
