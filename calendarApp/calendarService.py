@@ -34,9 +34,16 @@ def get_from_calendar():
     calendar = build('calendar', 'v3', credentials=connect_to_google(CREDENTIAL_FILE_NAME, SCOPE_CALENDAR))
     try:
         now = datetime.datetime.utcnow().isoformat() + 'Z'  # 'Z' indicates UTC time
-        return calendar.events().list(calendarId='primary', timeMin=now,
+        print('Getting the upcoming 10 events')
+        events_result = calendar.events().list(calendarId='primary', timeMin=now,
                                           maxResults=10, singleEvents=True,
                                           orderBy='startTime').execute()
+        events = events_result.get('items', [])
+        if not events:
+            print('No upcoming events found.')
+        for event in events:
+            start = event['start'].get('dateTime', event['start'].get('date'))
+            print(start, event['summary'])
     except HttpError as e:
         LOGGER.error('Failed: ' + str(e))
     return None
