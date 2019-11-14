@@ -4,6 +4,7 @@
 *.iml
 *.ipr
 
+.log
 .pickle
 .tox
 .pytest_cache
