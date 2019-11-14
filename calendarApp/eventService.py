@@ -86,7 +86,7 @@ class EventService:
     def _exit(self):
         if self.event_data.check() is False:
             choice = choose_index("You haven't finished creating the event.Do you really want to exit?",
-                                  ["Exit anyway", "Go back"], "Please choose option")
+                                  ["Exit anyway", "Go back"], "Please choose option:")
             if choice == 1:
                 self.active = False
                 self.event_data = None
