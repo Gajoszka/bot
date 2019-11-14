@@ -37,7 +37,7 @@ def input_date(name):
     try:
         the_time = datetime.strptime(input("Date (YYYY-mm-dd HH:mm:ss): "), '%Y-%m-%d %H:%M:%S')
         the_time = pytz.utc.localize(the_time)
-    except ValueError:
+    except ValueError :
         # catches exception when format is invalid
         choice = choose_index("Invalid format. Do you want to try again?",
                               ["Yes", "No"], "Please choose option")
