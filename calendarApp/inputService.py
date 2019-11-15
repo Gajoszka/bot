@@ -21,7 +21,7 @@ def valid_time(s_date):
     # gets today's date and adds local timezone to it
     today = datetime.today()
     # today = pytz.utc.localize(today)
-    if today > s_date:
+    if today >= s_date:
         print("This date already past.")
         start_date()
     else:
@@ -43,7 +43,7 @@ def check_dates(date1, date2):
 
 def input_date(name):
     print("What is the " + name + " time?")
-    the_stime = input("Date (default now) format : YYYY-mm-dd HH:mm:ss  or YYYY-mm-dd") or datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    the_stime = input("Date (default now) format (YYYY-mm-dd HH:mm:ss  or YYYY-mm-dd) :") or datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     try:
         the_time = datetime.strptime(the_stime, '%Y-%m-%d %H:%M:%S')
     except ValueError as e:
