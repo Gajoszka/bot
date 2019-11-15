@@ -17,9 +17,12 @@ class EventData:
         self.attendees = None
         self.endTimeUnspecified = True
 
-    # checks if all required fields are filled
+    """checks if all required fields are filled"""
+
     def check(self):
         return self.start is not None and self.end is not None and self.summary is not None and self.attendees is not None and self.description is not None
+
+    """creates dictionary from received data"""
 
     def toStr(self):
         dictionary = self.__dict__
@@ -27,6 +30,8 @@ class EventData:
             dictionary.get("start", None)) + "\n End date: " + str(
             dictionary.get("end", None)) + "\n Attendees: " + str(
             dictionary.get("attendees", [])) + "\n Description: " + dictionary.get("description")
+
+    """makes dictionary JSON serialized"""
 
     def toJson(self):
         return json.dumps(self.__dict__, default=event_converter)
@@ -37,6 +42,7 @@ def event_converter(o):
         # return o.__str__()
         # d = j_date.loads(o)
         return {
+            # dds local timezone to dates
             # "date": ,
             "dateTime": pytz.utc.localize(o).isoformat()
             # "timeZone":

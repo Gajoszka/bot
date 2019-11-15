@@ -67,7 +67,7 @@ class CalendarService:
     def connect_to_google(self):
         # checks if credentials are saved
         # if not it follows to create ones
-        # if so it gets them 
+        # if so it gets them
         if self.credential is None:
             # If there are no (valid) credentials available, let the user log in.
             self.read_pickle()

@@ -26,6 +26,9 @@ class MenuStart:
         self.calendarService.calendarId= 'primary'
         self._menuDefOptions = [self._show_events, self._creation, self._weather, self._exit]
 
+
+    """displays main menu that redirects user to specific options as chosen"""
+
     def showMenu(self):
         while self.active:
             choice = chooseOption("Menu", self._menuDefOptions, "Please choose option ")
