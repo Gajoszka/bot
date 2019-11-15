@@ -74,9 +74,13 @@ class EventService:
 
     def _add_start(self):
         self.event_data.start = start_date()
+        if self.event_data.start is not None:
+            print("Start date: " + self.event_data.start.strftime('%Y-%m-%d %H:%M:%S'))
 
     def _add_end(self):
         self.event_data.end = end_date(self.event_data.start)
+        if self.event_data.end is not None:
+            print("End date: " + self.event_data.end.strftime('%Y-%m-%d %H:%M:%S'))
 
     def _addPeople(self):
         self.event_data.attendees = attendees()

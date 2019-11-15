@@ -21,9 +21,9 @@ def valid_time(s_date):
     # gets today's date and adds local timezone to it
     today = datetime.today()
     # today = pytz.utc.localize(today)
-    if today > s_date:
+    if today >= s_date:
         print("This date already past.")
-        start_date(True)
+        start_date()
     else:
         return True
 
@@ -43,7 +43,7 @@ def check_dates(date1, date2):
 
 def input_date(name):
     print("What is the " + name + " time?")
-    the_stime = input("Date (YYYY-mm-dd HH:mm:ss  or YYYY-mm-dd)")
+    the_stime = input("Date (default now) format (YYYY-mm-dd HH:mm:ss  or YYYY-mm-dd) :") or (datetime.now()+timedelta(minutes=1)).strftime('%Y-%m-%d %H:%M:%S')
     try:
         the_time = datetime.strptime(the_stime, '%Y-%m-%d %H:%M:%S')
     except ValueError as e:
@@ -65,7 +65,7 @@ def start_date():
     s_time: datetime = input_date("start")
     if valid_time(s_time) is False:
         print("This date already passed!")
-        return start_date(True)
+        return start_date()
     return s_time
 
 
@@ -73,7 +73,7 @@ def end_date(s_time):
     e_time: datetime = input_date("end")
     if check_dates(s_time, e_time) is False:
         print("The end date is before start date!")
-        return end_date(s_time, True)
+        return end_date(s_time)
     return e_time
 
 
@@ -93,9 +93,9 @@ def valid_email(email):
 
 def attendees():
     attendees_list = []
-    print("How many people do you want to invite?")
+    print("How many people do you want to invite (default 0)?")
     try:
-        num = int(input())
+        num = int(input() or "0")
     except ValueError:
         choice = choose_index("Invalid format. Do you want to try again?",
                               ["Yes", "No"], "Please choose option")
