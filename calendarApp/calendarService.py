@@ -41,7 +41,10 @@ class CalendarService:
 
     @staticmethod
     def __get_credential_file_path():
-        return config.get_setting("credential")
+        file = config.get_setting("credential")
+        if file is None:
+            raise Exception("no definition credential in configuration file")
+        return file
 
     """adding created event to Google calendar"""
 
@@ -106,27 +109,4 @@ class CalendarService:
             with open(self.__get_pickle_path(), 'rb') as token:
                 self.credential = pickle.load(token)
 
-    # def authorize(self):
-    #     # Create a flow instance to manage the OAuth 2.0 Authorization Grant Flow
-    #     # steps.
-    #     flow = InstalledAppFlow.from_client_secrets_file(
-    #         self.__get_credential_file_path(), scopes=self.__scopes)
-    #     # flow.redirect_uri = flask.url_for('oauth2callback', _external=True)
-    #     fl = flow.authorization_url(
-    #         # This parameter enables offline access which gives your application
-    #         # an access token and a refresh token for the user's credentials.
-    #         access_type='offline',
-    #         # This parameter enables incremental auth.
-    #         include_granted_scopes='true')
-    #     authorization_url, state = flow.authorization_url(
-    #         # This parameter enables offline access which gives your application
-    #         # an access token and a refresh token for the user's credentials.
-    #         access_type='offline',
-    #         # This parameter enables incremental auth.
-    #         include_granted_scopes='true')
-    #
-    #     # Store the state in the session so that the callback can verify the
-    #     # authorization server response.
-    #     flask.session['state'] = state
-    #
-    #     return flask.redirect(authorization_url)
+   
