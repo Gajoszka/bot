@@ -23,6 +23,7 @@ class MenuStart:
         self.__show_events = "Show events"
         self.__exit = "Exit"
         self.__active = True
+        self.__event_service = EventService()
         self.calendarService = CalendarService()
         self.calendarService.calendarId = 'primary'
         self._menuDefOptions = [self.__show_events, self.__creation, self.__weather, self.__exit]
