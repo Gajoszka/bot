@@ -3,6 +3,7 @@
 import logging
 from datetime import datetime, timedelta
 
+import calendarApp.config as config
 from calendarApp.calendarService import CalendarService
 from calendarApp.eventData import EventData
 from calendarApp.eventService import EventService, event_to_str
@@ -17,6 +18,7 @@ class MenuStart:
     def __init__(self) -> None:
         super().__init__()
         self._events = []  # creates empty list of events
+        print("\n**** Hello " + config.get_setting("name", "")+" ****\n")
         # menu options
         self.__creation = "Create new event"
         self.__weather = "Check weather"
