@@ -11,35 +11,36 @@ from calendarApp.weather import weatherURL
 
 LOGGER = logging.getLogger(__name__)
 
+
 class MenuStart:
 
     def __init__(self) -> None:
         super().__init__()
         self._events = []  # creates empty list of events
         # menu options
-        self._creation = "Create new event"
-        self._weather = "Check weather"
-        self._show_events = "Show events"
-        self._exit = "Exit"
-        self.active = True
+        self.__creation = "Create new event"
+        self.__weather = "Check weather"
+        self.__show_events = "Show events"
+        self.__exit = "Exit"
+        self.__active = True
         self.calendarService = CalendarService()
-        self.calendarService.calendarId= 'primary'
-        self._menuDefOptions = [self._show_events, self._creation, self._weather, self._exit]
+        self.calendarService.calendarId = 'primary'
+        self._menuDefOptions = [self.__show_events, self.__creation, self.__weather, self.__exit]
 
 
     """displays main menu that redirects user to specific options as chosen"""
 
     def showMenu(self):
-        while self.active:
+        while self.__active:
             choice = chooseOption("Menu", self._menuDefOptions, "Please choose option ")
             try:
-                if choice == self._creation:
+                if choice == self.__creation:
                     self.run_creation()
-                elif choice == self._weather:
+                elif choice == self.__weather:
                     self._run_weather()
-                elif choice == self._show_events:
+                elif choice == self.__show_events:
                     self.run_show_events()
-                elif choice == self._exit:
+                elif choice == self.__exit:
                     self._run_exit()
             except Exception as e:
                 LOGGER.error('Failed: ' + str(e))
@@ -66,7 +67,7 @@ class MenuStart:
         # checks if all essentials data is in event
         # if so, adds event to list and runs method add_to_calendar
         if event_data is not None:
-            self.calendarService.add_to_calendar( event_data)
+            self.calendarService.add_to_calendar(event_data)
             self._events.append(event_data)
             print(event_data.toStr())
         return event_data
@@ -79,7 +80,7 @@ class MenuStart:
     """exits program"""
 
     def _run_exit(self):
-        self.active = False
+        self.__active = False
 
     def mock(self):
         event = EventData()
