@@ -12,6 +12,8 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 
+import calendarApp.config as config
+
 # logging reports problems and progress
 # getLogger creates logger object
 LOGGER = logging.getLogger(__name__)
@@ -24,29 +26,22 @@ class CalendarService:
         # If modifying these scopes, delete the file token.pickle.
         # gives access to calendar in read/write mode
         self.__scopes = ['https://www.googleapis.com/auth/calendar']
-        self.__resource_dir = './calendarApp/'
-        self.__credential_file_name = 'credentials2.json'
-        self.__pickle_file = 'token.pickle'
         self.credential = None
         self.calendarId = 'primary'
 
     def set_scopes(self, scope):
         self.__scopes = scope
 
-    def set_pickle_file_name(self, pickle_file):
-        self.__pickle_file = pickle_file
+    def __get_pickle_path(self):
+        name = config.get_setting("name")
+        if name is None:
+            return None
+        name = name.replace(" ", "")
+        return "./" + name + "_token.pickle"
 
-    def set_credential_file_name(self, credential_file_name):
-        self.__credential_file_name = credential_file_name
-
-    def set_resource_dir(self, resource_dir):
-        self.__resource_dir = resource_dir
-
-    def __get_credential_file_path(self):
-        return self.__resource_dir + self.__credential_file_name
-
-    def __get_credential_pickle_path(self):
-        return self.__resource_dir + self.__pickle_file
+    @staticmethod
+    def __get_credential_file_path():
+        return config.get_setting("credential")
 
     """adding created event to Google calendar"""
 
@@ -99,13 +94,33 @@ class CalendarService:
 
     def save_pickle(self):
         # Save the credentials for the next run
-        with open(self.__get_credential_pickle_path(), 'wb') as token:
-            pickle.dump(self.credential, token)
+        if self.__get_pickle_path() is not None:
+            with open(self.__get_pickle_path(), 'wb') as token:
+                pickle.dump(self.credential, token)
 
     def read_pickle(self):
         # The file token.pickle stores the user's access and refresh tokens, and is
         # created automatically when the authorization flow completes for the first
         # time.
-        if os.path.exists(self.__get_credential_pickle_path()):
-            with open(self.__get_credential_pickle_path(), 'rb') as token:
+        if self.__get_pickle_path() is not None and os.path.exists(self.__get_pickle_path()):
+            with open(self.__get_pickle_path(), 'rb') as token:
                 self.credential = pickle.load(token)
+
+    # def authorize(self):
+    #     # Create a flow instance to manage the OAuth 2.0 Authorization Grant Flow
+    #     # steps.
+    #     flow = google_auth_oauthlib.flow.Flow.from_client_secrets_file(
+    #         CLIENT_SECRETS_FILENAME, scopes=SCOPES)
+    #     flow.redirect_uri = flask.url_for('oauth2callback', _external=True)
+    #     authorization_url, state = flow.authorization_url(
+    #         # This parameter enables offline access which gives your application
+    #         # an access token and a refresh token for the user's credentials.
+    #         access_type='offline',
+    #         # This parameter enables incremental auth.
+    #         include_granted_scopes='true')
+    #
+    #     # Store the state in the session so that the callback can verify the
+    #     # authorization server response.
+    #     flask.session['state'] = state
+    #
+    #     return flask.redirect(authorization_url)
