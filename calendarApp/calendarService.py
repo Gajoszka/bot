@@ -65,9 +65,9 @@ class CalendarService:
     # changes - added if statement for checking occurrence in dictionary
     # no getting and printing events at this point
     def connect_to_google(self):
-        # checks if credentials are saved in dictionary
+        # checks if credentials are saved
         # if not it follows to create ones
-        # if so it gets them from dictionary
+        # if so it gets them 
         if self.credential is None:
             # If there are no (valid) credentials available, let the user log in.
             self.read_pickle()
