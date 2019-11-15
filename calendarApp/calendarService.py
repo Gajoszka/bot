@@ -92,7 +92,3 @@ class CalendarService:
         if os.path.exists(self.PICKLE_FILE):
             with open(self.PICKLE_FILE, 'rb') as token:
                 self.credential = pickle.load(token)
-
-
-def cos(self):
-    StorageOptions.newBuilder().setProjectId("your-project-id").setCredentials(credentials).build().getService();
