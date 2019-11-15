@@ -23,12 +23,30 @@ class CalendarService:
         super().__init__()
         # If modifying these scopes, delete the file token.pickle.
         # gives access to calendar in read/write mode
-        self.SCOPES = ['https://www.googleapis.com/auth/calendar']
-        self.RESOURCE_DIR = './calendarApp/'
-        self.CREDENTIAL_FILE_NAME = self.RESOURCE_DIR + 'credentials2.json'
-        self.PICKLE_FILE = self.RESOURCE_DIR + 'token.pickle'
+        self.__scopes = ['https://www.googleapis.com/auth/calendar']
+        self.__resource_dir = './calendarApp/'
+        self.__credential_file_name = 'credentials2.json'
+        self.__pickle_file = self.__resource_dir + 'token.pickle'
         self.credential = None
         self.calendarId = 'primary'
+
+    def set_scopes(self, scope):
+        self.__scopes = scope
+
+    def set_pickle_file_name(self, pickle_file):
+        self.__pickle_file = pickle_file
+
+    def set_credential_file_name(self, credential_file_name):
+        self.__credential_file_name = credential_file_name
+
+    def set_resource_dir(self, resource_dir):
+        self.__resource_dir = resource_dir
+
+    def __get_credential_file_path(self):
+        return self.__resource_dir + self.__credential_file_name
+
+    def __get_credential_pickle_path(self):
+        return self.__resource_dir + self.__pickle_file
 
     """adding created event to Google calendar"""
 
@@ -36,21 +54,20 @@ class CalendarService:
         service = build('calendar', 'v3', credentials=self.connect_to_google())
         json_event = json.loads(event_body.toJson())
         try:
-            event_to_add = service.events().insert(calendarId=self.calendarId , body=json_event,
+            event_to_add = service.events().insert(calendarId=self.calendarId, body=json_event,
                                                    sendNotifications=True).execute()
             result = service.calendarList().list().execute()
         except HttpError as e:
             # logging ERROR - there is a more serious problem which disables software to perform some functions
             LOGGER.error('Failed: ' + str(e))
 
-        """gets events from the calendar and displays them"""
+    """gets events from the calendar and displays them"""
 
     def get_from_calendar(self):
         service = build('calendar', 'v3', credentials=self.connect_to_google())
         try:
             now = datetime.datetime.utcnow().isoformat() + 'Z'  # 'Z' indicates UTC time
-            return service.events().list(calendarId=self.calendarId , timeMin=now,
-                                         maxResults=10, singleEvents=True,
+            return service.events().list(calendarId=self.calendarId, timeMin=now, maxResults=10, singleEvents=True,
                                          orderBy='startTime').execute()
             # catches error occurred during connecting to https site
             # and displays the error
@@ -59,7 +76,7 @@ class CalendarService:
             LOGGER.error('Failed: ' + str(e))
         return None
 
-    """getting credentials for logging to google account"""
+    """getting credential for logging to google account"""
 
     # code adapted from https://developers.google.com/calendar/quickstart/python
     # changes - added if statement for checking occurrence in dictionary
@@ -75,22 +92,20 @@ class CalendarService:
             if self.credential and self.credential.expired and self.credential.refresh_token:
                 self.credential.refresh(Request())
             else:
-                flow = InstalledAppFlow.from_client_secrets_file(self.CREDENTIAL_FILE_NAME, self.SCOPES)
+                flow = InstalledAppFlow.from_client_secrets_file(self.__get_credential_file_path(), self.__scopes)
                 self.credential = flow.run_local_server(port=0)
                 self.save_pickle()
         return self.credential
 
     def save_pickle(self):
         # Save the credentials for the next run
-        with open(self.PICKLE_FILE, 'wb') as token:
+        with open(self.__get_credential_pickle_path(), 'wb') as token:
             pickle.dump(self.credential, token)
 
     def read_pickle(self):
         # The file token.pickle stores the user's access and refresh tokens, and is
         # created automatically when the authorization flow completes for the first
         # time.
-        if os.path.exists(self.PICKLE_FILE):
-            with open(self.PICKLE_FILE, 'rb') as token:
+        if os.path.exists(self.__get_credential_pickle_path()):
+            with open(self.__get_credential_pickle_path(), 'rb') as token:
                 self.credential = pickle.load(token)
-
-
