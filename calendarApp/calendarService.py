@@ -94,5 +94,3 @@ class CalendarService:
                 self.credential = pickle.load(token)
 
 
-def cos(self):
-    StorageOptions.newBuilder().setProjectId("your-project-id").setCredentials(credentials).build().getService();
