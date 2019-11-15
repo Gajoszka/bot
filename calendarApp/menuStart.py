@@ -27,27 +27,29 @@ class MenuStart:
         self.calendarService.calendarId = 'primary'
         self._menuDefOptions = [self.__show_events, self.__creation, self.__weather, self.__exit]
 
+    def run(self):
+        self.__showMenu()
 
     """displays main menu that redirects user to specific options as chosen"""
 
-    def showMenu(self):
+    def __showMenu(self):
         while self.__active:
             choice = chooseOption("Menu", self._menuDefOptions, "Please choose option ")
             try:
                 if choice == self.__creation:
-                    self.run_creation()
+                    self.__run_creation()
                 elif choice == self.__weather:
-                    self._run_weather()
+                    self.__run_weather()
                 elif choice == self.__show_events:
-                    self.run_show_events()
+                    self.__run_show_events()
                 elif choice == self.__exit:
-                    self._run_exit()
+                    self.__run_exit()
             except Exception as e:
                 LOGGER.error('Failed: ' + str(e))
 
     """prints events that are on user's calendar"""
 
-    def run_show_events(self):
+    def __run_show_events(self):
         events_result = self.calendarService.get_from_calendar()
         events = events_result.get('items', [])
         if not events:
@@ -58,11 +60,9 @@ class MenuStart:
 
     """redirects user to menu prepared for event creation and then retrieves gained information"""
 
-    def run_creation(self):
+    def __run_creation(self):
         # creating instance of class Event Service
-        event_service = EventService()
-        event_service.run()
-        event_data = event_service.get_event()
+        event_data = self.__event_service.run()
         # event_data = self.mock()
         # checks if all essentials data is in event
         # if so, adds event to list and runs method add_to_calendar
@@ -74,15 +74,15 @@ class MenuStart:
 
     """redirects to weather file"""
 
-    def _run_weather(self):
+    def __run_weather(self):
         weatherURL()
 
     """exits program"""
 
-    def _run_exit(self):
+    def __run_exit(self):
         self.__active = False
 
-    def mock(self):
+    def __mock(self):
         event = EventData()
         event.description = "test2"
         event.end = datetime.today() + timedelta(days=1)

@@ -26,7 +26,7 @@ class CalendarService:
         self.__scopes = ['https://www.googleapis.com/auth/calendar']
         self.__resource_dir = './calendarApp/'
         self.__credential_file_name = 'credentials2.json'
-        self.__pickle_file = self.__resource_dir + 'token.pickle'
+        self.__pickle_file = 'token.pickle'
         self.credential = None
         self.calendarId = 'primary'
 
