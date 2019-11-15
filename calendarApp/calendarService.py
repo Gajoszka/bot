@@ -109,9 +109,15 @@ class CalendarService:
     # def authorize(self):
     #     # Create a flow instance to manage the OAuth 2.0 Authorization Grant Flow
     #     # steps.
-    #     flow = google_auth_oauthlib.flow.Flow.from_client_secrets_file(
-    #         CLIENT_SECRETS_FILENAME, scopes=SCOPES)
-    #     flow.redirect_uri = flask.url_for('oauth2callback', _external=True)
+    #     flow = InstalledAppFlow.from_client_secrets_file(
+    #         self.__get_credential_file_path(), scopes=self.__scopes)
+    #     # flow.redirect_uri = flask.url_for('oauth2callback', _external=True)
+    #     fl = flow.authorization_url(
+    #         # This parameter enables offline access which gives your application
+    #         # an access token and a refresh token for the user's credentials.
+    #         access_type='offline',
+    #         # This parameter enables incremental auth.
+    #         include_granted_scopes='true')
     #     authorization_url, state = flow.authorization_url(
     #         # This parameter enables offline access which gives your application
     #         # an access token and a refresh token for the user's credentials.

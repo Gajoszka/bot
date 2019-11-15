@@ -1,6 +1,6 @@
 import yaml
 
-settings = None
+settings = dict
 
 
 def init(yaml_file_name):
@@ -10,7 +10,10 @@ def init(yaml_file_name):
 
 
 def get_setting(name, default=None):
-    return settings.get(name, default)
+    try:
+        return settings.get(name, default)
+    except TypeError:
+        return default
 
 
 def add_setting(key, value):
