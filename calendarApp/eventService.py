@@ -6,99 +6,98 @@ from calendarApp.menuService import chooseOption
 
 
 class EventService:
-    # creating menu options
-    _title = "Add title"
-    _start = "Set start date"
-    _end = "Set end date"
-    _attendees = "Invite people"
-    _description = "Add description"
-    _cancel = "Exit"
 
     def __init__(self) -> None:
-        self.active = True
-        self.event_data = EventData()
+        self.__active = True
+        self.__event_data = None
+        # creating menu options
+        self.__title = "Add title"
+        self.__start = "Set start date"
+        self.__end = "Set end date"
+        self.__attendees = "Invite people"
+        self.__description = "Add description"
+        self.__cancel = "Exit"
 
     def run(self):
-        self.showMenu()
+        self.__event_data = EventData()
+        self.__showMenu()
+        return self.__event_data
 
-    def showMenu(self):
+    def __showMenu(self):
         # print the menu while the input from the user is valid
         # (choice was an element of previous menu)
-        while self.active:
+        while self.__active:
             print("----------------------------------------")
-            menu = self._create_menu()
+            menu = self.__create_menu()
             if len(menu) == 1:
-                self.active = False
+                self.__active = False
             else:
                 choice = chooseOption("Menu", menu, "Please choose option")
-                self._runActions(choice)
+                self.__runActions(choice)
 
     """creates menu dynamically based on which options have already been used"""
 
-    def _create_menu(self):
-        _menu_options = []
-        if self.event_data.summary is None:
-            _menu_options.append(self._title)
-        if self.event_data.start is None:
-            _menu_options.append(self._start)
-        elif self.event_data.end is None:  # end date can be set only if the start date is set
-            _menu_options.append(self._end)
-        if self.event_data.attendees is None:
-            _menu_options.append(self._attendees)
-        if self.event_data.description is None:
-            _menu_options.append(self._description)
+    def __create_menu(self):
+        menu_options = []
+        if self.__event_data.summary is None:
+            menu_options.append(self.__title)
+        if self.__event_data.start is None:
+            menu_options.append(self.__start)
+        elif self.__event_data.end is None:  # end date can be set only if the start date is set
+            menu_options.append(self.__end)
+        if self.__event_data.attendees is None:
+            menu_options.append(self.__attendees)
+        if self.__event_data.description is None:
+            menu_options.append(self.__description)
         # static option of menu
-        _menu_options.append(self._cancel)
-        return _menu_options
+        menu_options.append(self.__cancel)
+        return menu_options
 
     """redirects to particular method based on choice made"""
 
-    def _runActions(self, choice):
-        if choice == self._title:
-            self._add_title()
-        elif choice == self._start:
-            self._add_start()
-        elif choice == self._end:
-            self._add_end()
-        elif choice == self._attendees:
-            self._addPeople()
-        elif choice == self._description:
-            self._addDescription()
+    def __runActions(self, choice):
+        if choice == self.__title:
+            self.__add_title()
+        elif choice == self.__start:
+            self.__add_start()
+        elif choice == self.__end:
+            self.__add_end()
+        elif choice == self.__attendees:
+            self.__addPeople()
+        elif choice == self.__description:
+            self.__addDescription()
         else:
-            self._exit()
+            self.__exit()
 
     """methods that redirects to specific methods and stores information from them as parts of event_data (instance of class EbentData)"""
 
-    def _add_title(self):
-        self.event_data.summary = title()
+    def __add_title(self):
+        self.__event_data.summary = title()
 
-    def _add_start(self):
-        self.event_data.start = start_date()
-        if self.event_data.start is not None:
-            print("Start date: " + self.event_data.start.strftime('%Y-%m-%d %H:%M:%S'))
+    def __add_start(self):
+        self.__event_data.start = start_date()
+        if self.__event_data.start is not None:
+            print("Start date: " + self.__event_data.start.strftime('%Y-%m-%d %H:%M:%S'))
 
-    def _add_end(self):
-        self.event_data.end = end_date(self.event_data.start)
-        if self.event_data.end is not None:
-            print("End date: " + self.event_data.end.strftime('%Y-%m-%d %H:%M:%S'))
+    def __add_end(self):
+        self.__event_data.end = end_date(self.__event_data.start)
+        if self.__event_data.end is not None:
+            print("End date: " + self.__event_data.end.strftime('%Y-%m-%d %H:%M:%S'))
 
-    def _addPeople(self):
-        self.event_data.attendees = attendees()
+    def __addPeople(self):
+        self.__event_data.attendees = attendees()
 
-    def _addDescription(self):
-        self.event_data.description = description()
-
-    def get_event(self):
-        return self.event_data
+    def __addDescription(self):
+        self.__event_data.description = description()
 
     """make sure user really want to exit creating event"""
 
-    def _exit(self):
-        if self.event_data.check() is False:
+    def __exit(self):
+        if self.__event_data.check() is False:
             choice = choose_index("You haven't finished creating the event.Do you really want to exit?",
                                   ["Exit anyway", "Go back"], "Please choose option:")
             if choice == 1:
-                self.active = False
-                self.event_data = None
+                self.__active = False
+                self.__event_data = None
         else:
-            self.active = False
+            self.__active = False
