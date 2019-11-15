@@ -3,7 +3,7 @@
 import logging
 from datetime import datetime, timedelta
 
-from calendarApp.calendarService import add_to_calendar, get_from_calendar
+from calendarApp.calendarService import CalendarService
 from calendarApp.eventData import EventData
 from calendarApp.eventService import EventService, event_to_str
 from calendarApp.menuService import chooseOption
@@ -11,18 +11,20 @@ from calendarApp.weather import weatherURL
 
 LOGGER = logging.getLogger(__name__)
 
-CALENDAR_ID = 'primary'
-
-
 class MenuStart:
-    _events = []  # creates empty list of events
-    # menu options
-    _creation = "Create new event"
-    _weather = "Check weather"
-    _show_events = "Show events"
-    _exit = "Exit"
-    active = True
-    _menuDefOptions = [_show_events, _creation, _weather, _exit]
+
+    def __init__(self) -> None:
+        super().__init__()
+        self._events = []  # creates empty list of events
+        # menu options
+        self._creation = "Create new event"
+        self._weather = "Check weather"
+        self._show_events = "Show events"
+        self._exit = "Exit"
+        self.active = True
+        self.calendarService = CalendarService()
+        self.calendarService.calendarId= 'primary'
+        self._menuDefOptions = [self._show_events, self._creation, self._weather, self._exit]
 
     def showMenu(self):
         while self.active:
@@ -42,7 +44,7 @@ class MenuStart:
     """prints events that are on user's calendar"""
 
     def run_show_events(self):
-        events_result = get_from_calendar(CALENDAR_ID)
+        events_result = self.calendarService.get_from_calendar()
         events = events_result.get('items', [])
         if not events:
             print('No upcoming events found.')
@@ -58,14 +60,13 @@ class MenuStart:
         event_service.run()
         event_data = event_service.get_event()
         # event_data = self.mock()
-
         # checks if all essentials data is in event
         # if so, adds event to list and runs method add_to_calendar
         if event_data is not None:
-            add_to_calendar(CALENDAR_ID, event_data)
+            self.calendarService.add_to_calendar( event_data)
             self._events.append(event_data)
             print(event_data.toStr())
-            return event_data
+        return event_data
 
     """redirects to weather file"""
 
@@ -84,4 +85,4 @@ class MenuStart:
         event.start = datetime.today()
         event.summary = "xlega62@gmail.coma"
         event.attendees = ["ja", "ty"]
-        return event;
+        return event
