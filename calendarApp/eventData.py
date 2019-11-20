@@ -1,7 +1,5 @@
 import json
 from datetime import datetime
-
-# import jsondatetime as j_date
 import pytz
 
 
@@ -38,6 +36,7 @@ class EventData:
 
 
 def event_converter(o):
+    # if o is of the datetime type ther return it with added local timezone
     if isinstance(o, datetime):
         # return o.__str__()
         # d = j_date.loads(o)

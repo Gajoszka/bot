@@ -39,8 +39,8 @@ class CalendarService:
         name = name.replace(" ", "")
         return "./" + name + "_token.pickle"
 
-    @staticmethod
-    def __get_credential_file_path():
+
+    def __get_credential_file_path(self):
         file = config.get_setting("credential")
         if file is None:
             raise Exception("no definition credential in configuration file")
